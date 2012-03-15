@@ -1,0 +1,18 @@
+startup_message off
+defscrollback 10000
+defnonblock 5
+termcapinfo xterm-256color "Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm"
+termcapinfo xterm "Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm"
+defbce on
+attrcolor b ".I"
+vbell off
+
+# %{= Kw} : set bg/fg
+# %-Lw : print all windows up to the current one
+# %{= KW} : highlight the following...
+# [%50>%n%f* %t] : ???? Prints the current window magically
+# %{= Kw} : back to normal colour
+# %+Lw : print the rest of the windows
+# %= : this section is expanded so the bar fits across the entire screen if needed
+# | %l | ${FULLHOST} : print load and full hostname
+caption always "%{= Kw}%-Lw%{= KW}[%50>%n%f* %t]%{= Kw}%+Lw%-043=| %l | ${FULLHOST}"
