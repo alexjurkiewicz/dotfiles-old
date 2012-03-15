@@ -1,0 +1,13 @@
+Host *.bluebottle.net.au
+User aj
+ForwardAgent yes
+
+Host *
+Compression yes
+Protocol 2
+PreferredAuthentications publickey,password,keyboard-interactive
+# So zsh hostname completion works. Screw paranoia
+HashKnownHosts no
+# Long live paranoia
+Ciphers aes128-ctr,aes256-ctr,aes128-cbc,aes256-cbc
+MACs hmac-sha1

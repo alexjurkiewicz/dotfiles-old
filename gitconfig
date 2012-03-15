@@ -1,0 +1,12 @@
+[user]
+	name = Alex Jurkiewicz
+	email = alex@jurkiewi.cz
+[color]
+	diff = always
+	grep = always
+[alias]
+    st = status
+    c = commit
+    commmit = commit
+    pul = pull
+
