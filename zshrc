@@ -91,19 +91,19 @@ bindkey '^Q' kill-word
 bindkey ' ' magic-space
 
 # gnome terminal, konsole, terminator
-        bindkey '^[[1;5D' emacs-backward-word   # FreeBSD
-        bindkey '^[[1;5C' emacs-forward-word    # FreeBSD
-        bindkey '^A' beginning-of-line          # FreeBSD
-        bindkey '^E' end-of-line                # FreeBSD
-        bindkey '^[OH' beginning-of-line
-        bindkey '^[OF' end-of-line
-        bindkey '^[5D' emacs-backward-word
-        bindkey '^[5C' emacs-forward-word
+        bindkey '^[5D' emacs-backward-word      # ctrl-left
+        bindkey '^[5C' emacs-forward-word       # ctrl-right
+        bindkey '^[[1;5C' emacs-forward-word    # ctrl-left - FreeBSD
+        bindkey '^[[1;5D' emacs-backward-word   # ctrl-right - FreebSD
+        bindkey '^A' beginning-of-line
+        bindkey '^E' end-of-line
+        bindkey '^[OH' beginning-of-line        # home
+        bindkey '^[OF' end-of-line              # end
 # PuTTY
-        bindkey '^[[1~' beginning-of-line
-        bindkey '^[[4~' end-of-line
-        bindkey '^[OD' emacs-backward-word
-        bindkey '^[OC' emacs-forward-word
+        bindkey '^[[1~' beginning-of-line       # home
+        bindkey '^[[4~' end-of-line             # end
+        bindkey '^[OC' emacs-forward-word       # ctrl-right
+        bindkey '^[OD' emacs-backward-word      # ctrl-left
 
 # Autocomplete setup
 autoload -U compinit && compinit -d ~/.zcompdump.$FULLHOST
@@ -394,3 +394,5 @@ fi
 [[ -r ~/.zshrc.local.after ]] && . ~/.zshrc.local.after
 
 echo -n # Prime $?
+
+# vim:ft=zsh et ts=4
