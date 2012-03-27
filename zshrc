@@ -348,9 +348,15 @@ else
         # If we can see a newer revision in origin/master, tell the user, otherwise fetch origin/master and check on next shell initialisation.
         cd ~/.dotfiles
         if [[ $(git rev-parse HEAD) != $(git rev-parse origin/master) ]] ; then
-            echo "$fg_bold[white]Dotfile updates are available:$reset_color"
-            git log --oneline HEAD..origin/master | cat
-            echo "$fg_bold[white]Run update-dotfiles to apply all changes$reset_color"
+            if [[ -n "$(git rev-list HEAD..origin/master)" ]] ; then
+                # We're behind. If this was blank, we'd be ahead, and in that case assume the user is aware of what's going on.
+                echo "$fg_bold[white]Dotfile updates are available:$reset_color"
+                git log --oneline HEAD..origin/master | cat
+                echo "$fg_bold[white]Run update-dotfiles to apply all changes$reset_color"
+                if [[ -n "$(git rev-list origin/master..HEAD)" ]] ; then
+                    echo "$fg_bold[white]Note: You have unpushed local changes."
+                fi
+            fi
         else
             # Be nice to github, restrict autoupdate check to daily
             now=$(date +%s)
