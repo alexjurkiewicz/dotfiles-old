@@ -342,15 +342,15 @@ fi
 if ! [[ -d ~/.dotfiles/.git ]] ; then
     echo "$fg_bold[white]Cloning dotfiles repository to ~/.dotfiles...$reset_color"
     git clone -q git://github.com/alexjurkiewicz/dotfiles.git ~/.dotfiles
-    echo "$fg_bold[white]Done, run install-dotfiles to automatically install managed dotfiles$reset_color"
+    echo "$fg_bold[white]Done, run dotfiles-install to install all dotfiles$reset_color"
 else
     ( # Run in a subshell so if you ctrl-c during this you don't end up with strange CWD.
         # If we can see a newer revision in origin/master, tell the user, otherwise fetch origin/master and check on next shell initialisation.
         cd ~/.dotfiles
         if [[ $(git rev-parse HEAD) != $(git rev-parse origin/master) ]] ; then
-            echo "$fg_bold[white]Updates to the dotfile repository! Changelist:$reset_color"
+            echo "$fg_bold[white]Dotfile updates are available:$reset_color"
             git log --oneline HEAD..origin/master | cat
-            echo "$fg_bold[white]Run update-dotfiles to automatically apply all changes$reset_color"
+            echo "$fg_bold[white]Run update-dotfiles to apply all changes$reset_color"
         else
             # Be nice to github, restrict autoupdate check to daily
             now=$(date +%s)
@@ -363,7 +363,7 @@ else
 fi
 
 # Install all dotfiles
-install-dotfiles() {
+dotfiles-install() {
     OLD_IFS=$IFS # I hate having to do this
     IFS='
 '
@@ -390,7 +390,7 @@ install-dotfiles() {
     IFS=$OLD_IFS # Is this even neccessary? Probably.
 }
 
-update-dotfiles() {
+dotfiles-update() {
     cd ~/.dotfiles
     if [[ -n "$(git status --porcelain)" ]] ; then
         echo "~/.dotfiles repository unclean, not proceeding."
