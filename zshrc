@@ -152,11 +152,11 @@ fi
 if ls -F --color=always >&/dev/null; then
   alias ls="ls --color=always -F"
 else
-  alias ls="ls -F"
+  alias ls="ls -F" # FreeBSD
 fi
 export GREP_OPTIONS='--color=always'
 export CLICOLOR=1 # FreeBSD
-export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_mb=$'\E[01;31m' # Pretty manpages
 export LESS_TERMCAP_md=$'\E[01;31m'
 export LESS_TERMCAP_me=$'\E[0m'
 export LESS_TERMCAP_se=$'\E[0m'
@@ -198,7 +198,7 @@ if ! whence vess &>/dev/null ; then
 fi
 # New commands
 alias tmux="tmux -2" # 256colour support
-alias hist='builtin history'
+alias hist='builtin history' # Show the last 15 events
 alias history='history 1' # Show all events
 alias j=jobs
 alias sidp=sudo
@@ -216,7 +216,7 @@ whence motd &>/dev/null || alias motd="cat /etc/motd"
 sleeptil () {
     [[ $1 == "-q" ]] && local quiet=1 && shift
 
-    local until=$(date -d "$*" +%s) # this is somewhere that the $@/$* different matters
+    local until=$(date -d "$*" +%s) # this is somewhere that the $@/$* difference matters
     local untilnice="$(date -d @$until "+%a %b %d %H:%M:%S")"
     local now=$(date +%s)
     local delta=$(($until-$now))
@@ -225,16 +225,6 @@ sleeptil () {
     sleep $delta
     return
 }
-
-# Create (minimal) copies of other config files if they aren't there, AND we aren't root, AND we're in ~
-if [[ $USER != root ]] && [[ -x $(which wget) ]] && [[ $PWD = $HOME ]] ; then
-        screenrc=~/.screenrc    && [[ ! -f $screenrc ]] && wget -qO $screenrc http://www.bluebottle.net.au/.screenrc &|
-        tmuxconf=~/.tmux.conf	&& [[ ! -f $tmuxconf ]] && wget -qO $tmuxconf http://www.bluebottle.net.au/.tmux.conf &|
-        vimrc=~/.vimrc          && [[ ! -f $vimrc ]] && wget -qO $vimrc http://www.bluebottle.net.au/.vimrc &|
-        htoprc=~/.htoprc        && [[ `uname` = Linux ]] && [[ ! -f $htoprc ]] && wget -qO $htoprc http://www.bluebottle.net.au/.htoprc &|
-        terminatorconfig=~/.config/terminator/config && [[ `uname` = Linux ]] && [[ ! -f $terminatorconfig ]] && mkdir -p ~/.config/terminator && wget -qO $terminatorconfig http://www.bluebottle.net.au/.terminatorconfig &|
-        inkpot=~/.vim/colors/inkpot.vim && [[ ! -f $inkpot ]] && mkdir -p ~/.vim/colors && wget -qO $inkpot 'http://www.vim.org/scripts/download_script.php?src_id=5747' &|
-fi
 
 # Prompt
 #####
@@ -344,26 +334,8 @@ if is-at-least 4.3.7 ; then
 	precmd_functions+=vcs_precmd
 fi
 
-
-# Misc
+# Update checking / management
 #####
-
-updatezshrc() {
-       	if [[ -f ~/.zshrc.new ]] ; then
-		echo "Downloading latest version..."
-		wget -N --quiet --header "Referer:.zshrc/$FULLHOST" http://www.bluebottle.net.au/.zshrc.new
-		echo "Changes:"
-		diff ~/.zshrc ~/.zshrc.new
-		echo "Installing..."
-		mv -v ~/.zshrc ~/.zshrc.old
-		mv -v ~/.zshrc.new ~/.zshrc
-		zcompile ~/.zshrc
-		echo "Done! Restart your shell."
-	else
-		echo "No ~/.zshrc.new!"
-	fi
-	}
-
 
 # Perform a git checkout of the files if they don't already exist
 if ! [[ -d ~/.dotfiles/.git ]] ; then
@@ -425,6 +397,9 @@ update-dotfiles() {
         echo "Updated to $(git rev-parse --short HEAD)"
     fi
 }
+
+# Login prettiness
+#####
 
 # If this is a login shell do a basic fingerprint on the system
 # tmux by default creates login shells so don't when we're in there
