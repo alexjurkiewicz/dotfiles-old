@@ -4,19 +4,19 @@ runtime! debian.vim
 set incsearch nocompatible showmatch ignorecase smartcase scrolloff=5 noai vb t_vb= noerrorbells wildmenu t_Co=256 modeline smarttab
 " :set noet ts=8 to temporarily override
 set et ts=4 softtabstop=4 shiftwidth=4
-" Assume /bin/sh is posix-compatible (not bourne-compatible)
-let g:is_posix=1
 
 " Filetype-specific configuration
+" http://vimdoc.sourceforge.net/htmldoc/syntax.html#syntax
+syntax on
+filetype plugin indent on
 au BufRead,BufNewFile /etc/nginx/* set ft=nginx
 au BufRead,BufNewFile nginx.conf* set ft=nginx
 au BufRead,BufNewFile *.jinja set ft=htmljinja
 au BufRead,BufNewFile *.textile set ft=textile
 au BufRead,BufNewFile *.pp set ft=puppet
 au FileType python setlocal et ts=4 softtabstop=4 shiftwidth=4
-" http://vimdoc.sourceforge.net/htmldoc/syntax.html#syntax
-syntax on
-filetype plugin indent on
+" Assume /bin/sh is posix-compatible (not bourne-compatible)
+let g:is_posix=1
 
 " Reopen files where we left off
 if has("autocmd")
