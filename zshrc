@@ -364,15 +364,68 @@ updatezshrc() {
 	fi
 	}
 
-# See if there's an update available -- Note! Clobbers .zshrc.new
-# Need the PWD=HOME check because wget can't be told to output the file anywhere but '.' when using -N. Stupid app.
-if [[ $USER != root ]] && [[ -x $(which wget) ]] && [[ $PWD = $HOME ]] ; then
-	if [[ ~/.zshrc.new -nt ~/.zshrc ]] ; then
-	       echo "$fg_bold[white].zshrc update available, run updatezshrc$reset_color"
-	else
-		wget -N --quiet --header "Referer:.zshrc/$FULLHOST" http://www.bluebottle.net.au/.zshrc.new &|
-	fi
+
+# Perform a git checkout of the files if they don't already exist
+if ! [[ -d ~/.dotfiles/.git ]] ; then
+    echo "$fg_bold[white]Cloning dotfiles repository to ~/.dotfiles...$reset_color"
+    git clone -q git://github.com/alexjurkiewicz/dotfiles.git ~/.dotfiles
+    echo "$fg_bold[white]Done, run install-dotfiles to automatically install managed dotfiles$reset_color"
+else
+    ( # Run in a subshell so if you ctrl-c during this you don't end up with strange CWD.
+        # If we can see a newer revision in origin/master, tell the user, otherwise fetch origin/master and check on next shell initialisation.
+        cd ~/.dotfiles
+        if [[ $(git rev-parse HEAD) != $(git rev-parse origin/master) ]] ; then
+            echo "$fg_bold[white]Updates to the dotfile repository! Changelist:$reset_color"
+            git log --oneline HEAD..origin/master | cat
+            echo "$fg_bold[white]Run update-dotfiles to automatically apply all changes$reset_color"
+        else
+            # Be nice to github, restrict autoupdate check to daily
+            now=$(date +%s)
+            modified=$(zstat +mtime .git/FETCH_HEAD)
+            if [[ $(($now - $modified)) -gt 86400 ]] ; then
+                ( out=$(git fetch 2>&1) || echo "\n$fg_bold[white]Could not fetch ~/.dotfiles repository: $out$reset_color" ) &|
+            fi
+        fi
+    )
 fi
+
+# Install all dotfiles
+install-dotfiles() {
+    OLD_IFS=$IFS # I hate having to do this
+    IFS='
+'
+    for line in $(cat ~/.dotfiles/MAP | egrep -v '^#') ; do
+        src=$(echo $line | awk '{print $1}')
+        dst=$(echo $line | awk '{print $2}') ; dst=$(eval echo $dst) # Perform parameter substitution on $dst
+        echo "$src -> $dst"
+        if ! [[ -f $dst ]] ; then
+            # The file doesn't exist, create a link to it from the repo
+            if ! [[ -f $(dirname $dst) ]] ; then
+                echo $(dirname $dst)
+                #mkdir -pv $dst | tail -1
+            fi
+            ln -vs ~/.dotfiles/$src $dst
+        else
+            # The file does exist. It's either already been linked or is something else. In either case we won't touch it, but tell the user so they can be assured the command works in the former case and take action if desired in the latter.
+            if [[ -h $dst ]] && [[ $(zstat -L +link $dst) = "*/.dotfiles/$src" ]] ; then
+                echo "$dst was already linked: $dst -> $(zstat -L +link $dst)."
+            else
+                echo "$dst exists already, ignoring."
+            fi
+        fi
+    done
+    IFS=$OLD_IFS # Is this even neccessary? Probably.
+}
+
+update-dotfiles() {
+    cd ~/.dotfiles
+    if [[ -n "git status --porcelain" ]] ; then
+        echo "~/.dotfiles repository unclean, not proceeding."
+    else
+        git pull >/dev/null
+        echo "Updated to $(git rev-parse --short HEAD)"
+    fi
+}
 
 # If this is a login shell do a basic fingerprint on the system
 # tmux by default creates login shells so don't when we're in there

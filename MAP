@@ -1,0 +1,13 @@
+# Lines starting with # are ignored
+# Maps configuration files from repo filename to real location
+zshrc       $HOME/.zshrc
+gitconfig   $HOME/.gitconfig
+htoprc      $HOME/.htoprc
+screenrc    $HOME/.screenrc
+tmux.conf   $HOME/.tmux.conf
+vim         $HOME/.vim
+vim/colors/inkpot.vim   $HOME/.vim/colors/inkpot.vim
+vim/syntax/nginx.vim   $HOME/.vim/syntax/nginx.vim
+vim/syntax/vcl.vim   $HOME/.vim/syntax/vcl.vim
+vim/syntax/puppet.vim   $HOME/.vim/syntax/puppet.vim
+vimrc       $HOME/.vimrc
