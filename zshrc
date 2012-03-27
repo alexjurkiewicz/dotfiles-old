@@ -204,6 +204,7 @@ alias j=jobs
 alias sidp=sudo
 alias t=tmux
 alias s=screen
+alias g=git
 dstat --list &>/dev/null && alias dstat="dstat -tpcmdgn --top-cpu --top-bio" || alias dstat="dstat -tpcmdgn" # a little hacky, but I believe --top-cpu and --top-bio have always been core dstat plugins so just check if this dstat version has the plugin system
 setenv() { export $1=$2 } # Woohoo csh
 sudo() { [[ $1 == (vi|vim) ]] && ( shift && sudoedit "$@" ) || command sudo "$@"; } # sudo vi/vim => sudoedit
