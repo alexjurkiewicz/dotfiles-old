@@ -6,10 +6,6 @@ set et ts=4 softtabstop=4 shiftwidth=4
 " Assume /bin/sh is posix-compatible (not bourne-compatible)
 let g:is_posix=1
 
-" http://vimdoc.sourceforge.net/htmldoc/syntax.html#syntax
-syntax on
-filetype plugin indent on
-
 " Filetype-specific configuration
 au BufRead,BufNewFile /etc/nginx/* set ft=nginx
 au BufRead,BufNewFile nginx.conf* set ft=nginx
@@ -17,6 +13,9 @@ au BufRead,BufNewFile *.jinja set ft=htmljinja
 au BufRead,BufNewFile *.textile set ft=textile
 au BufRead,BufNewFile *.pp set ft=puppet
 au FileType python setlocal et ts=4 softtabstop=4 shiftwidth=4
+" http://vimdoc.sourceforge.net/htmldoc/syntax.html#syntax
+syntax on
+filetype plugin indent on
 
 " Reopen files where we left off
 if has("autocmd")
