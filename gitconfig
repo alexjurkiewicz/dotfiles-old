@@ -1,12 +1,17 @@
 [user]
-	name = Alex Jurkiewicz
-	email = alex@jurkiewi.cz
+    name = Alex Jurkiewicz
+    email = alex@jurkiewi.cz
 [color]
-	diff = always
-	grep = always
+    diff = always
+    grep = always
+    status = always
 [alias]
     st = status
+    s = status
     c = commit
     commmit = commit
     pul = pull
-
+    rbm = rebase origin/master
+    a = add
+    g = grep
+    d = diff
