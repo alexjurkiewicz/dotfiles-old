@@ -369,7 +369,8 @@ install-dotfiles() {
 '
     for line in $(cat ~/.dotfiles/MAP | egrep -v '^#') ; do
         src=$(echo $line | awk '{print $1}')
-        dst=$(echo $line | awk '{print $2}') ; dst=$(eval echo $dst) # Perform parameter substitution on $dst
+        dst=$(echo $line | awk '{print $2}')
+        dst=${(e)dst} # Perform parameter substitution on $dst
         if ! [[ -f $dst ]] ; then
             # The file doesn't exist, create a link to it from the repo
             if ! [[ -f $(dirname $dst) ]] ; then
