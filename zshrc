@@ -418,7 +418,7 @@ install-dotfiles() {
 
 update-dotfiles() {
     cd ~/.dotfiles
-    if [[ -n "git status --porcelain" ]] ; then
+    if [[ -n "$(git status --porcelain)" ]] ; then
         echo "~/.dotfiles repository unclean, not proceeding."
     else
         git pull >/dev/null
