@@ -377,19 +377,18 @@ dotfiles-install() {
         src=$(echo $line | awk '{print $1}')
         dst=$(echo $line | awk '{print $2}')
         dst=${(e)dst} # Perform parameter substitution on $dst
-        if ! [[ -f $dst ]] ; then
+        if ! [[ -e $dst ]] ; then
             # The file doesn't exist, create a link to it from the repo
-            if ! [[ -f $(dirname $dst) ]] ; then
-                echo $(dirname $dst)
-                #mkdir -pv $dst | tail -1
+            if ! [[ -d $(dirname $dst) ]] ; then
+                mkdir -pv $dst | tail -1
             fi
             ln -vs ~/.dotfiles/$src $dst
         else
             # The file does exist. It's either already been linked or is something else. In either case we won't touch it, but tell the user so they can be assured the command works in the former case and take action if desired in the latter.
-            if [[ -h $dst ]] && [[ $(zstat -L +link $dst) = "*/.dotfiles/$src" ]] ; then
-                echo "$dst was already linked: $dst -> $(zstat -L +link $dst)."
+            if [[ -h $dst ]] && [[ $(zstat -L +link $dst) = */.dotfiles/$src ]] ; then
+                echo "$dst is already installed: ($(zstat -L +link $dst))"
             else
-                echo "$dst exists already, ignoring."
+                echo "Already exists, not installing: $dst"
             fi
         fi
     done
