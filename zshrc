@@ -370,43 +370,97 @@ fi
 
 # Install all dotfiles
 dotfiles-install() {
+    #
+    # This part is duplicated in dotfiles-update (with one extra section)
+    #
     OLD_IFS=$IFS # I hate having to do this
     IFS='
 '
-    for line in $(cat ~/.dotfiles/MAP | egrep -v '^#') ; do
+    TEMPFILE=`mktemp /tmp/dotfiles-install.XXXXXX`
+    # For each file/folder in MAP
+    for line in $(cat ~/.dotfiles/MAP | egrep -v '^#' | egrep -v '^$') ; do
         src=$(echo $line | awk '{print $1}')
-        dst=$(echo $line | awk '{print $2}')
-        dst=${(e)dst} # Perform parameter substitution on $dst
-        if ! [[ -e $dst ]] ; then
-            # The file doesn't exist, create a link to it from the repo
-            if ! [[ -d $(dirname $dst) ]] ; then
-                mkdir -pv $dst | tail -1
-            fi
-            ln -vs ~/.dotfiles/$src $dst
-        else
-            # The file does exist. It's either already been linked or is something else. In either case we won't touch it, but tell the user so they can be assured the command works in the former case and take action if desired in the latter.
-            if [[ -h $dst ]] && [[ $(zstat -L +link $dst) = */.dotfiles/$src ]] ; then
-                #echo "$dst is already installed: ($(zstat -L +link $dst))"
-            else
-                echo "$dst: file already exists, not installing."
-            fi
-        fi
-    done
-    IFS=$OLD_IFS # Is this even neccessary? Probably.
+        dst=$(echo $line | awk '{print $2}') ; dst=${(e)dst} # Perform parameter substitution
+        opts=$(echo $line | awk '{print $3}')
 
-    # Special snowflake config file handling:
-    # htop: uses /home/aj/.config/htop/htoprc in preference if it's there, so nuke it
-    [[ -f $HOME/.config/htop/htoprc ]] && echo "$fg_bold[white]Warning: $HOME/.config/htop/htoprc exists and will override the installed $HOME/.htoprc$reset_color"
+        # (Apply parameter substitution if required)
+        if echo $opts | grep -q expand-vars ; then
+            zsh -fc ". ./CONFIG ; a=\`cat $src\` ; echo \${(e)a}" > $TEMPFILE
+            s=$TEMPFILE
+        else
+            s=$src
+        fi
+        # Then install the new file
+        if [[ -f $dst ]] ; then
+            cp -p $dst $dst.bak
+            echo "Backed up $dst to $dst.bak"
+        fi
+        cat $s > $dst
+        echo "$fg_bold[white]$dst$reset_colour: Installed"
+    done
+
+    IFS=$OLD_IFS
+    rm $TEMPFILE
 }
 
 dotfiles-update() {
+    # First update the repo
     cd ~/.dotfiles
     if [[ -n "$(git status --porcelain)" ]] ; then
-        echo "~/.dotfiles repository unclean, not proceeding."
+        echo "~/.dotfiles repository unclean"
+        return 1
     else
+        old=$(git rev-parse --short HEAD)
         git pull >/dev/null
-        echo "Updated to $(git rev-parse --short HEAD)"
+        new=$(git rev-parse --short HEAD)
+        echo "Updated to $(git rev-parse --short HEAD). Changelog:"
+        git log --oneline $old..$new | cat
+        echo ; echo "Run dotfiles-install to apply these changes"
     fi
+
+    echo "Update dotfiles? (y/N)"
+    read -q
+    if ! [[ $REPLY = y ]] ; then
+        return 0
+    else
+        #
+        # This is identical to dotfiles-install, just with one extra section
+        #
+        OLD_IFS=$IFS # I hate having to do this
+        IFS='
+'
+        TEMPFILE=`mktemp /tmp/dotfiles-install.XXXXXX`
+        # For each file in MAP
+        for line in $(cat ~/.dotfiles/MAP | egrep -v '^#' | egrep -v '^$') ; do
+            src=$(echo $line | awk '{print $1}')
+            dst=$(echo $line | awk '{print $2}') ; dst=${(e)dst} # Perform parameter substitution
+            opts=$(echo $line | awk '{print $3}')
+
+            # (Apply parameter substitution if required)
+            if echo $opts | grep -q expand-vars ; then
+                zsh -fc ". ./CONFIG ; a=\`cat $src\` ; echo \${(e)a}" > $TEMPFILE
+                s=$TEMPFILE
+            else
+                s=$src
+            fi
+            # If the file already exists, diff it
+            if [[ -f $dst ]] ; then
+                # If there are differences, tell the user
+                if ! diff $dst $s >/dev/null 2>&1 ; then
+                    echo "Updates to $dst:"
+                    diff -u $dst $s
+                fi
+                # Then install the new file
+                if [[ -f $dst ]] ; then
+                    cp -p $dst $dst.bak
+                    echo "$dst: Backed up current version to $dst.bak"
+                fi
+            fi
+            cat $s > $dst
+            echo "$dst: Installed updates"
+        done
+        IFS=$OLD_IFS
+        rm $TEMPFILE
 }
 
 # Login prettiness

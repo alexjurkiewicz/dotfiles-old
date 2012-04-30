@@ -1,8 +1,19 @@
 # Lines starting with # are ignored
 # Maps configuration files from repo filename to real location
+
+# SRC: source filename in repository
+# DST: destination filename on filesystem (will be parameter expanded in the startup shell)
+# OPTS: options to apply during mapping process. Options are comma-separated, other commas are not allows.
+#   expand-vars:            apply shell expansion to the template file and install 
+#                           a customised copy to the filesystem. The expansion takes 
+#                           place in a new shell that has sourced the CONFIG file only.
+#   extra-code-always=foo:  evaluate this string in the current environment 
+#                           after handling the file
+
+# SRC       DST                 OPTS
 zshrc       $HOME/.zshrc
-gitconfig   $HOME/.gitconfig
-htoprc      $HOME/.htoprc
+gitconfig   $HOME/.gitconfig    expand-vars
+htoprc      $HOME/.htoprc       extra-code-always=[[ -f $HOME/.config/htop/htoprc ]] && echo "$fg_bold[white]Warning: $HOME/.config/htop/htoprc exists and will override the installed $HOME/.htoprc$reset_color"
 screenrc    $HOME/.screenrc
 tmux.conf   $HOME/.tmux.conf
 vim         $HOME/.vim

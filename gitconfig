@@ -1,6 +1,6 @@
 [user]
-    name = Alex Jurkiewicz
-    email = alex@jurkiewi.cz
+    name = $GIT_NAME
+    email = $GIT_EMAIL
 [color]
     diff = always
     grep = always
