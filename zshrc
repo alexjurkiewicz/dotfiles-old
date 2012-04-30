@@ -386,9 +386,9 @@ dotfiles-install() {
         else
             # The file does exist. It's either already been linked or is something else. In either case we won't touch it, but tell the user so they can be assured the command works in the former case and take action if desired in the latter.
             if [[ -h $dst ]] && [[ $(zstat -L +link $dst) = */.dotfiles/$src ]] ; then
-                echo "$dst is already installed: ($(zstat -L +link $dst))"
+                #echo "$dst is already installed: ($(zstat -L +link $dst))"
             else
-                echo "Already exists, not installing: $dst"
+                echo "$dst: file already exists, not installing."
             fi
         fi
     done
