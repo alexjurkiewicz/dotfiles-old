@@ -393,6 +393,10 @@ dotfiles-install() {
         fi
     done
     IFS=$OLD_IFS # Is this even neccessary? Probably.
+
+    # Special snowflake config file handling:
+    # htop: uses /home/aj/.config/htop/htoprc in preference if it's there, so nuke it
+    [[ -f $HOME/.config/htop/htoprc ]] && echo "$fg_bold[white]Warning: $HOME/.config/htop/htoprc exists and will override the installed $HOME/.htoprc$reset_color"
 }
 
 dotfiles-update() {
