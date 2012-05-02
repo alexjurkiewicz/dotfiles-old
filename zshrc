@@ -13,7 +13,7 @@
 export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:$PATH
 
 # Initial colours setup -- required by a few things further in
-eval `dircolors` >/dev/null 2>&1
+[[ -x $(which dircolors) ]] && eval `dircolors` >/dev/null 2>&1
 autoload colors && colors
 
 # What are we?
@@ -360,7 +360,13 @@ else
         else
             # Be nice to github, restrict autoupdate check to daily
             now=$(date +%s)
-            modified=$(zstat +mtime .git/FETCH_HEAD)
+            if [[ -f ~/.dotfiles/.git/FETCH_HEAD ]] ; then
+                modified=$(zstat +mtime ~/.dotfiles/.git/FETCH_HEAD)
+            else
+                # The file only exists after the first fetch, so fake it
+                touch ~/.dotfiles/.git/FETCH_HEAD
+                modified=0
+            fi
             if [[ $(($now - $modified)) -gt 86400 ]] ; then
                 ( out=$(git fetch 2>&1) || echo "\n$fg_bold[white]Could not fetch ~/.dotfiles repository: $out$reset_color" ) &|
             fi
