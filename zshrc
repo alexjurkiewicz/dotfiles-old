@@ -213,7 +213,7 @@ hl() { pattern=$(echo $1 | sed 's!\/!\\/!g') ; sed "s/$pattern/[1m[31m&[0m/g;
 alias clean='sed -e "s/[ \t]*$//"'
 [[ -f /usr/share/pyshared/bzrlib/patiencediff.py ]] && alias pdiff="python /usr/share/pyshared/bzrlib/patiencediff.py"
 alias portsnap-update='sudo portsnap fetch && sudo portsnap update' # FreeBSD
-whence motd &>/dev/null || alias motd="cat /etc/motd"
+whence motd &>/dev/null || alias motd="[[ -f /etc/motd ]] && cat /etc/motd"
 sleeptil () {
     [[ $1 == "-q" ]] && local quiet=1 && shift
 
