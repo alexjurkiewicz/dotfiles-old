@@ -150,7 +150,7 @@ fi
 
 # Colours
 if ls -F --color=always >&/dev/null; then
-  alias ls="ls --color=always -F"
+  alias ls="ls --color=auto -F"
 else
   alias ls="ls -F" # FreeBSD
 fi
