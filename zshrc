@@ -154,7 +154,7 @@ if ls -F --color=always >&/dev/null; then
 else
   alias ls="ls -F" # FreeBSD
 fi
-export GREP_OPTIONS='--color=always'
+export GREP_OPTIONS='--color=auto'
 export CLICOLOR=1 # FreeBSD
 export LESS_TERMCAP_mb=$'\E[01;31m' # Pretty manpages
 export LESS_TERMCAP_md=$'\E[01;31m'
