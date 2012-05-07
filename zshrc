@@ -89,16 +89,18 @@ bindkey '\e[3~' delete-char
 bindkey '^[[3;5~' kill-word
 bindkey '^Q' kill-word
 bindkey ' ' magic-space
+bindkey '^A' beginning-of-line
+bindkey '^E' end-of-line
 
-# gnome terminal, konsole, terminator
-        bindkey '^[5D' emacs-backward-word      # ctrl-left
-        bindkey '^[5C' emacs-forward-word       # ctrl-right
-        bindkey '^[[1;5C' emacs-forward-word    # ctrl-left - FreeBSD
-        bindkey '^[[1;5D' emacs-backward-word   # ctrl-right - FreebSD
-        bindkey '^A' beginning-of-line
-        bindkey '^E' end-of-line
-        bindkey '^[OH' beginning-of-line        # home
-        bindkey '^[OF' end-of-line              # end
+# gnome terminal, konsole, terminator, iTerm (basically everything except Putty)
+        bindkey '^[5D' emacs-backward-word      # ctrl-left (Linux)
+        bindkey '^[5C' emacs-forward-word       # ctrl-right (Linux)
+        bindkey '^[[1;5C' emacs-forward-word    # ctrl-left (FreeBSD, OS X)
+        bindkey '^[[1;5D' emacs-backward-word   # ctrl-right (FreeBSD, OS X)
+        bindkey '^[OH' beginning-of-line        # home (Linux, FreeBSD)
+        bindkey '^[OF' end-of-line              # end (Linux, FreeBSD)
+        bindkey '^[[H' beginning-of-line        # home (OS X)
+        bindkey '^[[F' beginning-of-line        # end (OS X)
 # PuTTY
         bindkey '^[[1~' beginning-of-line       # home
         bindkey '^[[4~' end-of-line             # end
