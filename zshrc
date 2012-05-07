@@ -86,7 +86,6 @@ setopt nocheckjobs nohup longlistjobs
 stty -ixon #no XON/XOFF
 bindkey -e
 bindkey '\e[3~' delete-char
-bindkey '^[[3;5~' kill-word
 bindkey '^Q' kill-word
 bindkey ' ' magic-space
 bindkey '^A' beginning-of-line
@@ -100,7 +99,9 @@ bindkey '^E' end-of-line
         bindkey '^[OH' beginning-of-line        # home (Linux, FreeBSD)
         bindkey '^[OF' end-of-line              # end (Linux, FreeBSD)
         bindkey '^[[H' beginning-of-line        # home (OS X)
-        bindkey '^[[F' beginning-of-line        # end (OS X)
+        bindkey '^[[F' end-of-line              # end (OS X)
+        bindkey '^[[3~' kill-word               # ^del (OS X)
+        bindkey '^[[3;5~' kill-word             # ^del (Linux)
 # PuTTY
         bindkey '^[[1~' beginning-of-line       # home
         bindkey '^[[4~' end-of-line             # end
