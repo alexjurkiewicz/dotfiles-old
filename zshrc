@@ -129,7 +129,7 @@ alias ssh="LC_XHOSTS=\"$_hosts[*]\" ssh"
 
 # Other autocomplete
 zstyle ':completion:*:hosts' hosts $_hosts
-zstyle ':completion:*:hosts' ignored-patterns ip6-localhost ip6-loopback localhost.localdomain
+zstyle ':completion:*:hosts' ignored-patterns ip6-localhost ip6-loopback localhost.localdomain broadcasthost
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:users' ignored-patterns _dhcp _pflogd adm apache avahi avahi-autoipd backup bin bind clamav cupsys cyrusdaemon daemon Debian-exim dictd dovecot games gnats gdm ftp halt haldaemon hplip ident identd irc junkbust klog kmem libuuid list lp mail mailnull man messagebus mysql munin named news nfsnobody nobody nscd ntp ntpd operator pcap polkituser pop postfix postgres proftpd proxy pulse radvd rpc rpcuser rpm saned shutdown smmsp spamd squid sshd statd stunnel sync sys syslog toor tty uucp vcsa varnish vmail vde2-net www www-data xfs couchdb kernoops libvirt-qemu rtkit speech-dispatcher usbmux dbus gopher
 zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns '*?~' # Ignore files ending in ~ for all commands but rm
