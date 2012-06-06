@@ -23,16 +23,16 @@ export SHORTHOST=$(echo $FULLHOST | cut -d. -f1-2)
 # Where are we?
 case $FULLHOST in
 *.bluebottle.net.au|*.home|ajlaptop*|ajvm*|*.local)
-        ourloc=home
-        ucolor=$fg_bold[green]
-        ;;
+    ourloc=home
+    ucolor=$fg_bold[green]
+    ;;
 *.siteminder.com|*.siteminder.com.au|*.smuat|*.smtpi|*.bbuat|*.bbtpi|*.siteminder.co.uk|*.syd|*.dev)
-        ourloc=work
-        ucolor=$fg_bold[cyan]
-        ;;
+    ourloc=work
+    ucolor=$fg_bold[cyan]
+    ;;
 *)
-        ourloc=unknown
-        ucolor=$fg_bold[white] ;;
+    ourloc=unknown
+    ucolor=$fg_bold[white] ;;
 esac
 
 #####
@@ -47,20 +47,20 @@ unset MAIL
 
 # Autodetect $LANG. Since this is slow, cache the result so it's not run every time.
 if [[ ! -f ~/.zshrc.local.before ]] ; then
-	touch ~/.zshrc.local.before
+    touch ~/.zshrc.local.before
 fi
 if ! egrep -q "^export LANG=" ~/.zshrc.local.before ; then
-	echo -n "Autodetecting \$LANG... "
-	if [[ -n "$(locale -a | egrep -i "en_(AU|US)\.utf-?8" | head -1)" ]] ; then
-		# Linux: en_AU.utf8
-		# FreeBSD / OSX: en_AU.UTF-8
-		# Use AU or US utf8, or fall back to C
-		export LANG=$(locale -a | egrep -i "en_(AU|US)\.utf-?8" | head -1)
-	else
-		export LANG=C
-	fi
-	echo $LANG
-	echo "export LANG=$LANG" >> ~/.zshrc.local.before
+    echo -n "Autodetecting \$LANG... "
+    if [[ -n "$(locale -a | egrep -i "en_(AU|US)\.utf-?8" | head -1)" ]] ; then
+        # Linux: en_AU.utf8
+        # FreeBSD / OSX: en_AU.UTF-8
+        # Use AU or US utf8, or fall back to C
+        export LANG=$(locale -a | egrep -i "en_(AU|US)\.utf-?8" | head -1)
+    else
+        export LANG=C
+    fi
+    echo $LANG
+    echo "export LANG=$LANG" >> ~/.zshrc.local.before
 fi
 
 autoload -U tcp_open
@@ -90,22 +90,21 @@ bindkey '^Q' kill-word
 bindkey ' ' magic-space
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
-
 # gnome terminal, konsole, terminator, iTerm (basically everything except Putty)
-        bindkey '^[5D' emacs-backward-word      # ctrl-left (Linux)
-        bindkey '^[5C' emacs-forward-word       # ctrl-right (Linux)
-        bindkey '^[[1;5C' emacs-forward-word    # ctrl-left (FreeBSD, OS X)
-        bindkey '^[[1;5D' emacs-backward-word   # ctrl-right (FreeBSD, OS X)
-        bindkey '^[OH' beginning-of-line        # home (Linux, FreeBSD)
-        bindkey '^[OF' end-of-line              # end (Linux, FreeBSD)
-        bindkey '^[[H' beginning-of-line        # home (OS X)
-        bindkey '^[[F' end-of-line              # end (OS X)
-        bindkey '^[[3;5~' kill-word             # ^del (Linux)
+bindkey '^[5D' emacs-backward-word      # ctrl-left (Linux)
+bindkey '^[5C' emacs-forward-word       # ctrl-right (Linux)
+bindkey '^[[1;5C' emacs-forward-word    # ctrl-left (FreeBSD, OS X)
+bindkey '^[[1;5D' emacs-backward-word   # ctrl-right (FreeBSD, OS X)
+bindkey '^[OH' beginning-of-line        # home (Linux, FreeBSD)
+bindkey '^[OF' end-of-line              # end (Linux, FreeBSD)
+bindkey '^[[H' beginning-of-line        # home (OS X)
+bindkey '^[[F' end-of-line              # end (OS X)
+bindkey '^[[3;5~' kill-word             # ^del (Linux)
 # PuTTY
-        bindkey '^[[1~' beginning-of-line       # home
-        bindkey '^[[4~' end-of-line             # end
-        bindkey '^[OC' emacs-forward-word       # ctrl-right
-        bindkey '^[OD' emacs-backward-word      # ctrl-left
+bindkey '^[[1~' beginning-of-line       # home
+bindkey '^[[4~' end-of-line             # end
+bindkey '^[OC' emacs-forward-word       # ctrl-right
+bindkey '^[OD' emacs-backward-word      # ctrl-left
 
 # Autocomplete setup
 autoload -U compinit && compinit -d ~/.zcompdump.$FULLHOST
@@ -120,10 +119,10 @@ zstyle ':completion:*' cache-path ~/.zcompcache
 [[ -r /etc/hosts ]] && : ${(A)_etc_hosts:=${(s: :)${(ps:\t:)${${(f)~~"$(</etc/hosts)"}%%\#*}##[:blank:]#[^[:blank:]]#}}} || _etc_hosts=()
 [[ -n $LC_XHOSTS ]] && _lc_hosts=(${(s: :)LC_XHOSTS})
 _hosts=(
-	"$_ssh_hosts[@]"
-	"$_etc_hosts[@]"
-	"$_lc_hosts[@]"
-	localhost
+    "$_ssh_hosts[@]"
+    "$_etc_hosts[@]"
+    "$_lc_hosts[@]"
+    localhost
 )
 alias ssh="LC_XHOSTS=\"$_hosts[*]\" ssh"
 
@@ -136,7 +135,7 @@ zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns '*?~' # Ignore files en
 zstyle ':completion:*:processes' command "ps -Ao pid,user,command -w"
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 zstyle ':completion:*:kill:*' force-list always # Show processlist even if only one entry
-# zstyle ':completion:*:*:-command-:*' ignored-patterns '*.cmd'	# Ignore *.cmd in $PATH # for AWS
+# zstyle ':completion:*:*:-command-:*' ignored-patterns '*.cmd' # Ignore *.cmd in $PATH # for AWS
 zstyle '*' single-ignored show # If there's only one match but it's ignored, show it
 export ZLE_REMOVE_SUFFIX_CHARS='' && export ZLE_SPACE_SUFFIX_CHARS='' # Don't modify completions after printing them
 
@@ -145,16 +144,16 @@ export ZLE_REMOVE_SUFFIX_CHARS='' && export ZLE_SPACE_SUFFIX_CHARS='' # Don't mo
 #####
 alias ssh="LC_XHOSTS=\"$_hosts[*]\" ssh"
 if [[ -x $(which vim) ]] ; then
-	export EDITOR=vim ; export VISUAL=vim ; alias vi=vim
+    export EDITOR=vim ; export VISUAL=vim ; alias vi=vim
 else
-	export EDITOR=vi ; export VISUAL=vi
+    export EDITOR=vi ; export VISUAL=vi
 fi
 
 # Colours
-if ls -F --color=always >&/dev/null; then
-  alias ls="ls --color=auto -F"
+if ls -F --color=auto >&/dev/null; then
+    alias ls="ls --color=auto -F"
 else
-  alias ls="ls -F" # FreeBSD
+    alias ls="ls -F" # FreeBSD
 fi
 export GREP_OPTIONS='--color=auto'
 export CLICOLOR=1 # FreeBSD
@@ -168,15 +167,15 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 # SSH Agent. Store agent details in a file. Load the details and if they're invalid create a new agent.
 ssh-agent () { 
-	[[ -S $SSH_AUTH_SOCK ]] && echo "Agent socket already defined." && return
-	if [[ -f ~/.agent.$FULLHOST ]] ; then # existing agent data, try it and break if it works
-		eval `cat ~/.agent.$FULLHOST`
-		ps -o "user,command" -p $SSH_AGENT_PID | tail -1 | egrep -q "^${USER}.*ssh-agent\$" && echo "Loaded existing agent." && return
-	fi
-	# else create new agent
-	command ssh-agent | grep -v echo > ~/.agent.$FULLHOST
-	eval `cat ~/.agent.$FULLHOST`
-	echo "Created new agent."
+    [[ -S $SSH_AUTH_SOCK ]] && echo "Agent socket already defined." && return
+    if [[ -f ~/.agent.$FULLHOST ]] ; then # existing agent data, try it and break if it works
+        eval `cat ~/.agent.$FULLHOST`
+        ps -o "user,command" -p $SSH_AGENT_PID | tail -1 | egrep -q "^${USER}.*ssh-agent\$" && echo "Loaded existing agent." && return
+    fi
+    # else create new agent
+    command ssh-agent | grep -v echo > ~/.agent.$FULLHOST
+    eval `cat ~/.agent.$FULLHOST`
+    echo "Created new agent."
 }
 
 # Pager
@@ -184,19 +183,19 @@ ssh-agent () {
 export LESS="-iRMq"
 man --no-justification -w man &>/dev/null && export MANOPT="--no-justification"
 if ! whence vess &>/dev/null ; then
-	echo -n "Finding vess... "
-	unsetopt nomatch
-	vess=$(find /usr/local/share/vim/vim*/macros/less.sh /usr/share/vim/vim*/macros/less.sh 2>/dev/null | head -n 1)
-	setopt nomatch
-	if [[ -n $vess ]] ; then
-		echo $vess
-	       	alias vess=$vess
-		echo "alias vess=$vess" >> ~/.zshrc.local.before
-	else
-		echo "not found!"
-		alias vess=$PAGER
-		echo "alias vess=$PAGER" >> ~/.zshrc.local.before
-	fi
+    echo -n "Finding vess... "
+    unsetopt nomatch
+    vess=$(find /usr/local/share/vim/vim*/macros/less.sh /usr/share/vim/vim*/macros/less.sh 2>/dev/null | head -n 1)
+    setopt nomatch
+    if [[ -n $vess ]] ; then
+        echo $vess
+        alias vess=$vess
+        echo "alias vess=$vess" >> ~/.zshrc.local.before
+    else
+        echo "not found!"
+        alias vess=$PAGER
+        echo "alias vess=$PAGER" >> ~/.zshrc.local.before
+    fi
 fi
 # New commands
 alias tmux="tmux -2" # 256colour support
@@ -212,7 +211,7 @@ setenv() { export $1=$2 } # Woohoo csh
 sudo() { [[ $1 == (vi|vim) ]] && ( shift && sudoedit "$@" ) || command sudo "$@"; } # sudo vi/vim => sudoedit
 excuse() { nc bofh.jeffballard.us 666 | tail -1 | sed -e 's/.*: //' }
 hl() { pattern=$(echo $1 | sed 's!\/!\\/!g') ; sed "s/$pattern/[1m[31m&[0m/g;" } # Like grep, but prints non-matching lines
-alias clean='sed -e "s/[ \t]*$//"'
+alias clean='sed -e "s/[ \t]*$//"' # XXX: breaks when the last character on a line is 't'
 [[ -f /usr/share/pyshared/bzrlib/patiencediff.py ]] && alias pdiff="python /usr/share/pyshared/bzrlib/patiencediff.py"
 alias portsnap-update='sudo portsnap fetch && sudo portsnap update' # FreeBSD
 whence motd &>/dev/null || alias motd="[[ -f /etc/motd ]] && cat /etc/motd"
@@ -236,45 +235,44 @@ typeset -ga precmd_functions
 
 # Called in preexec() and precmd() to set the window title and screen title (if in screen/tmux)
 function title() {
-	# $1 - the command running. Set to zsh if nothing is
-	# $2 - truncated path
-	local a
-        # escape '%' chars in $1, make nonprintables visible
-        a=${(V)1//\%/\%\%}
-        # Truncate command, and join lines.
-        a=$(print -Pn "$a" | tr -d "\n")
-        # Remove 'sudo ' from the start of the command if it's there
-        a=${a#sudo }
-	# The format depends on how we're running
-        case $TERM in
-        screen*)
-		# We're in screen or tmux, so set the terminal title and the screen window title
+    # $1 - the command running. Set to zsh if nothing is
+    # $2 - truncated path
+    local a
+    # escape '%' chars in $1, make nonprintables visible
+    a=${(V)1//\%/\%\%}
+    # Truncate command, and join lines.
+    a=$(print -Pn "$a" | tr -d "\n")
+    # Remove 'sudo ' from the start of the command if it's there
+    a=${a#sudo }
+    # The format depends on how we're running
+    case $TERM in
+    screen*)
+        # We're in screen or tmux, so set the terminal title and the screen window title
+        # Screen/tmux tab title
+        [[ $a = zsh ]] && print -Pn "\ek$2\e\\" # show the path if no program is running
+        [[ $a != zsh ]] && print -Pn "\ek$a\e\\" # if a program is running show that
 
-                # Screen/tmux tab title
-                [[ $a = zsh ]] && print -Pn "\ek$2\e\\" # show the path if no program is running
-                [[ $a != zsh ]] && print -Pn "\ek$a\e\\" # if a program is running show that
-
-                # Terminal title
-                if [[ -n $STY ]] ; then
-                        [[ $a = zsh ]] && print -Pn "\e]2;$SHORTHOST:S\[$WINDOW\]:$2\a"
-                        [[ $a != zsh ]] && print -Pn "\e]2;$SHORTHOST:S\[$WINDOW\]:${a//\%/\%\%}\a"
-                elif [[ -n $TMUX ]] ; then
-                        # We're running in tmux, not screen
-                        [[ $a = zsh ]] && print -Pn "\e]2;$SHORTHOST:$2\a"
-                        [[ $a != zsh ]] && print -Pn "\e]2;$SHORTHOST:${a//\%/\%\%}\a"
-                fi
-                ;;
-        xterm*|rxvt*)
-                [[ $a = zsh ]] && print -Pn "\e]2;$SHORTHOST:$2\a"
-                # extra processing here so you don't bork commandlines with % in them
-                [[ $a != zsh ]] && print -Pn "\e]2;$SHORTHOST:${a//\%/\%\%}\a"
-                ;;
-        esac
+        # Terminal title
+        if [[ -n $STY ]] ; then
+            [[ $a = zsh ]] && print -Pn "\e]2;$SHORTHOST:S\[$WINDOW\]:$2\a"
+            [[ $a != zsh ]] && print -Pn "\e]2;$SHORTHOST:S\[$WINDOW\]:${a//\%/\%\%}\a"
+        elif [[ -n $TMUX ]] ; then
+            # We're running in tmux, not screen
+            [[ $a = zsh ]] && print -Pn "\e]2;$SHORTHOST:$2\a"
+            [[ $a != zsh ]] && print -Pn "\e]2;$SHORTHOST:${a//\%/\%\%}\a"
+        fi
+        ;;
+    xterm*|rxvt*)
+        [[ $a = zsh ]] && print -Pn "\e]2;$SHORTHOST:$2\a"
+        # extra processing here so you don't bork commandlines with % in them
+        [[ $a != zsh ]] && print -Pn "\e]2;$SHORTHOST:${a//\%/\%\%}\a"
+        ;;
+    esac
 }
 
 #Choose the character (and colour) at the end of the prompt
 if [[ `whoami` = root ]] ; then
-        echo $fg_bold[white] "* NOTE: This is zsh, not the normal root shell" $reset_color
+    echo $fg_bold[white] "* NOTE: This is zsh, not the normal root shell" $reset_color
 fi
 
 # grey, aka #3E3E3E
@@ -283,58 +281,58 @@ grey='[38;5;248m'
 # Prompt setup
 # Fall back to a simple prompt if there's no colour support, or we're logged into the local console
 if [[ -z $fg ]] ||  ( [[ `uname` == Linux ]] && [[ $TTY == /dev/tty* ]] ) || ( [[ `uname` == FreeBSD ]] && [[ $TTY == /dev/ttyv* ]] ) ; then
-        PS1="%D{%H:%M:%S} %m %~ %(!.#.$) "
+    PS1="%D{%H:%M:%S} %m %~ %(!.#.$) "
 else
-	PS1="%{$reset_color$grey%}%D{%H:%M:%S} %{%(#.$fg_bold[red].${ucolor})%}$SHORTHOST %{$reset_color$fg[yellow]%}%~ %{$fg_bold[magenta]%}%1v%{$fg_bold[green]%}%2v%{%(?.${ucolor}.$fg[red])%}%(!.#.$)%{$reset_color%} "
+    PS1="%{$reset_color$grey%}%D{%H:%M:%S} %{%(#.$fg_bold[red].${ucolor})%}$SHORTHOST %{$reset_color$fg[yellow]%}%~ %{$fg_bold[magenta]%}%1v%{$fg_bold[green]%}%2v%{%(?.${ucolor}.$fg[red])%}%(!.#.$)%{$reset_color%} "
 fi
 
 
 # Set & reset the terminal title(s)
 function title_precmd() {
-        title "zsh" "%15<...<%~"
+    title "zsh" "%15<...<%~"
 }
 function title_preexec() {
-        title "$1" "%15<...<%~"
+    title "$1" "%15<...<%~"
 }
 precmd_functions+=title_precmd
 preexec_functions+=title_preexec
 
 # Use command-not-found if it's installed on the system
 if [[ -x /usr/lib/command-not-found ]] ; then
-	function command_not_found_handler() {
-		/usr/lib/command-not-found -- $1
-	}
+    function command_not_found_handler() {
+        /usr/lib/command-not-found -- $1
+    }
 fi
 
 # VCS configuration
 autoload -U is-at-least
 if is-at-least 4.3.7 ; then
-	autoload -Uz vcs_info
-	zstyle ':vcs_info:*' enable git # only git for now
-	zstyle ':vcs_info:*' get-revision true
-	# These are saved by `vcs_info` as $vcs_info_msg_0_ to n
-	# repo format (blank if not in one), revision, current branch, current action (merge etc) (only for actionformats)
-	zstyle ':vcs_info:*' formats       "%s" "%i" "%b" "%a"
-	zstyle ':vcs_info:*' actionformats "%s" "%i" "%b" "%a"
-	
-	autoload -U is-at-least
-	function vcs_precmd() {
-		vcs_info
-		if [[ -n $vcs_info_msg_0_ ]] ; then # we're in a repository
-			if [[ $vcs_info_msg_0_ = git ]] ; then
-				revname=$(git name-rev --always --name-only HEAD)
-				is-at-least 4.3.10 || vcs_info_msg_1_=$(git rev-list --max-count 1 HEAD) # older zsh missed this feature
-				rev=$vcs_info_msg_1_[0,7] # 7 chars is enough revhash for anyone
-				[[ -n $vcs_info_msg_3_ ]] && action="$vcs_info_msg_3_ " || action=""
-			fi
-			psvar[1]=("$revname ")
-			psvar[2]=("$action")
-		else
-			psvar[1]=("")
-			psvar[2]=("")
-		fi
-	}
-	precmd_functions+=vcs_precmd
+    autoload -Uz vcs_info
+    zstyle ':vcs_info:*' enable git # only git for now
+    zstyle ':vcs_info:*' get-revision true
+    # These are saved by `vcs_info` as $vcs_info_msg_0_ to n
+    # repo format (blank if not in one), revision, current branch, current action (merge etc) (only for actionformats)
+    zstyle ':vcs_info:*' formats       "%s" "%i" "%b" "%a"
+    zstyle ':vcs_info:*' actionformats "%s" "%i" "%b" "%a"
+    
+    autoload -U is-at-least
+    function vcs_precmd() {
+        vcs_info
+        if [[ -n $vcs_info_msg_0_ ]] ; then # we're in a repository
+            if [[ $vcs_info_msg_0_ = git ]] ; then
+                revname=$(git name-rev --always --name-only HEAD)
+                is-at-least 4.3.10 || vcs_info_msg_1_=$(git rev-list --max-count 1 HEAD) # older zsh missed this feature
+                rev=$vcs_info_msg_1_[0,7] # 7 chars is enough revhash for anyone
+                [[ -n $vcs_info_msg_3_ ]] && action="$vcs_info_msg_3_ " || action=""
+            fi
+            psvar[1]=("$revname ")
+            psvar[2]=("$action")
+        else
+            psvar[1]=("")
+            psvar[2]=("")
+        fi
+    }
+    precmd_functions+=vcs_precmd
 fi
 
 # Update checking / management
@@ -423,17 +421,17 @@ dotfiles-update() {
 # If this is a login shell do a basic fingerprint on the system
 # tmux by default creates login shells so don't when we're in there
 if [[ -o login ]] && [[ -z "$TMUX" ]] ; then
-	echo
-	hostname
-	if [[ -f /etc/issue.net ]] ; then
-		head -n 1 /etc/issue.net
-	elif [[ -f /etc/issue ]] ; then
-		head -n 1 /etc/issue
-	elif [[ `uname` = Darwin ]] ; then
-		sw_vers -productName | tr '\n' ' ' ; sw_vers -productVersion
-	fi
-	uname -srm
-	echo
+    echo
+    hostname
+    if [[ -f /etc/issue.net ]] ; then
+        head -n 1 /etc/issue.net
+    elif [[ -f /etc/issue ]] ; then
+        head -n 1 /etc/issue
+    elif [[ `uname` = Darwin ]] ; then
+        sw_vers -productName | tr '\n' ' ' ; sw_vers -productVersion
+    fi
+    uname -srm
+    echo
 fi
 
 # Run the local override file if it's there
