@@ -10,7 +10,7 @@
 #####
 # Basic Information
 #####
-export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:$PATH
+export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/sbin:/bin:$PATH
 
 # Initial colours setup -- required by a few things further in
 [[ -x $(which dircolors) ]] && eval `dircolors` >/dev/null 2>&1
