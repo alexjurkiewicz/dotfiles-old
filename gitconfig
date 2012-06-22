@@ -16,3 +16,4 @@
     g = grep
     d = diff
     l = log
+    pnp = !git fetch && git rebase origin/master && git push
