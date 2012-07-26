@@ -100,6 +100,7 @@ bindkey '^[OF' end-of-line              # end (Linux, FreeBSD)
 bindkey '^[[H' beginning-of-line        # home (OS X)
 bindkey '^[[F' end-of-line              # end (OS X)
 bindkey '^[[3;5~' kill-word             # ^del (Linux)
+bindkey '^[OM' accept-line              # numpad enter (OS X)
 # PuTTY
 bindkey '^[[1~' beginning-of-line       # home
 bindkey '^[[4~' end-of-line             # end
