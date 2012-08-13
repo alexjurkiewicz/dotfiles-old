@@ -8,6 +8,7 @@ set et ts=4 softtabstop=4 shiftwidth=4
 " Filetype-specific configuration
 " http://vimdoc.sourceforge.net/htmldoc/syntax.html#syntax
 syntax on
+syntax sync minlines=200
 filetype plugin indent on
 au BufRead,BufNewFile /etc/nginx/* set ft=nginx
 au BufRead,BufNewFile nginx.conf* set ft=nginx
