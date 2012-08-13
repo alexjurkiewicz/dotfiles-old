@@ -223,6 +223,12 @@ sleeptil () {
     local untilnice="$(date -d @$until "+%a %b %d %H:%M:%S")"
     local now=$(date +%s)
     local delta=$(($until-$now))
+    if [[ $delta -le 0 ]] ; then
+        local until=$(date -d "$* tomorrow" +%s)
+        local untilnice="$(date -d @$until "+%a %b %d %H:%M:%S")"
+        local now=$(date +%s)
+        local delta=$(($until-$now))
+    fi
 
     [[ -z $quiet ]] && echo Sleeping $delta secs until $untilnice
     sleep $delta
