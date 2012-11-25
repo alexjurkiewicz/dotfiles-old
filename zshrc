@@ -409,7 +409,9 @@ dotfiles-install() {
 
     # Special snowflake config file handling:
     # htop: uses /home/aj/.config/htop/htoprc in preference if it's there, so nuke it
-    [[ -f $HOME/.config/htop/htoprc ]] && echo "$fg_bold[white]Warning: $HOME/.config/htop/htoprc exists and will override the installed $HOME/.htoprc$reset_color"
+    if [[ -f $HOME/.config/htop/htoprc ]] && [[ -f $HOME/.htoprc ]] ; then
+        echo "$fg_bold[white]Warning: $HOME/.config/htop/htoprc and $HOME/.htoprc both exist, you should probably delete the latter.$reset_color"
+    fi
 }
 
 dotfiles-update() {
