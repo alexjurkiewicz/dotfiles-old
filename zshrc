@@ -348,7 +348,7 @@ fi
 # Perform a git checkout of the files if they don't already exist
 if ! [[ -d ~/.dotfiles/.git ]] ; then
     echo "$fg_bold[white]Cloning dotfiles repository to ~/.dotfiles...$reset_color"
-    git clone -q git://github.com/alexjurkiewicz/dotfiles.git ~/.dotfiles
+    git clone -q git@github.com:alexjurkiewicz/dotfiles.git ~/.dotfiles
     echo "$fg_bold[white]Done, run dotfiles-install to install all dotfiles$reset_color"
 else
     ( # Run in a subshell so if you ctrl-c during this you don't end up with strange CWD.
