@@ -2,7 +2,7 @@
 # Maps configuration files from repo filename to real location
 zshrc       $HOME/.zshrc
 gitconfig   $HOME/.gitconfig
-htoprc      $HOME/.htoprc
+htoprc      $HOME/.config/htop/htoprc
 screenrc    $HOME/.screenrc
 tmux.conf   $HOME/.tmux.conf
 vim         $HOME/.vim
