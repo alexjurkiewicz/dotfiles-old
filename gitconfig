@@ -15,5 +15,7 @@
     a = add
     g = grep
     d = diff
+    dh = diff HEAD
+    dc = diff --cached
     l = log
     pnp = !git fetch && git rebase origin/master && git push
