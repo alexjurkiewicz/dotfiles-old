@@ -442,7 +442,7 @@ dotfiles-update() {
     if [[ -n "$(git status --porcelain)" ]] ; then
         echo "~/.dotfiles repository unclean, not proceeding."
     else
-        git pull >/dev/null
+        git merge origin/HEAD >/dev/null
         echo "Updated to $(git rev-parse --short HEAD)"
     fi
 }
