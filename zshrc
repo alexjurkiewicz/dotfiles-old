@@ -442,7 +442,7 @@ dotfiles-update() {
     if [[ -n "$(git status --porcelain)" ]] ; then
         echo "~/.dotfiles repository unclean, not proceeding."
     else
-        local oldrev=$(git rev-list --max-count 1 HEAD)
+        oldrev=$(git rev-list --max-count 1 HEAD)
         git merge origin/HEAD >/dev/null
         echo "Updated to $(git rev-parse --short HEAD). Changes:"
         git log --oneline $oldrev..HEAD | cat
