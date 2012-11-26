@@ -422,8 +422,9 @@ dotfiles-install() {
                 if [[ -h $dst ]] && [[ $(zstat -L +link $dst) = */.dotfiles/$src ]] ; then
                     # correct symlink already exists
                     echo "Installed symlink of $src -> $dst"
+                else
+                    ln -vs ~/.dotfiles/$src $dst
                 fi
-                ln -vs ~/.dotfiles/$src $dst
                 ;;
         esac
     done
