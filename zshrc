@@ -347,9 +347,12 @@ fi
 
 # Perform a git checkout of the files if they don't already exist
 if ! [[ -d ~/.dotfiles/.git ]] ; then
-    echo "$fg_bold[white]Cloning dotfiles repository to ~/.dotfiles...$reset_color"
-    git clone -q git@github.com:alexjurkiewicz/dotfiles.git ~/.dotfiles
-    echo "$fg_bold[white]Done, create ~/.dotfiles/CONFIG from ~/.dotfiles/CONFIG.sample, then run dotfiles-install to install all dotfiles!$reset_color"
+    echo "$fg_bold[white]$ git clone -q git@github.com:alexjurkiewicz/dotfiles.git ~/.dotfiles$reset_color"
+    if git clone -q git@github.com:alexjurkiewicz/dotfiles.git ~/.dotfiles ; then
+        echo
+        echo "$fg_bold[white]Done, create ~/.dotfiles/CONFIG from ~/.dotfiles/CONFIG.sample, then run dotfiles-install to install all dotfiles!$reset_color"
+        echo
+    fi
 else
     ( # Run in a subshell so if you ctrl-c during this you don't end up with strange CWD.
         # If we can see a newer revision in origin/master, tell the user, otherwise fetch origin/master and check on next shell initialisation.
