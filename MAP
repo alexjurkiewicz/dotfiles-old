@@ -1,7 +1,9 @@
 # Lines starting with # are ignored
 # Maps configuration files from repo filename to real location
+#
+# Format: src dest [flags]
 zshrc       $HOME/.zshrc
-gitconfig   $HOME/.gitconfig
+gitconfig   $HOME/.gitconfig            s
 htoprc      $HOME/.config/htop/htoprc
 screenrc    $HOME/.screenrc
 tmux.conf   $HOME/.tmux.conf

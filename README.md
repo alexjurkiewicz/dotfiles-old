@@ -22,21 +22,22 @@ This repository contains dotfiles that I use, as well as a system for installing
 
 Then you can:
 
-* Install all other dotfiles in the respository using `dotfiles-install`. ("install" = `ln -s` each dotfile into place)
+* Create your local CONFIG file.
+* Install all other dotfiles in the respository using `dotfiles-install`.
 * Receive new updates with `dotfiles-update`.
 * Enjoy!
 
 ## Uninstallation
 
 1. Delete `~/.zshrc` and `~/.dotfiles`.
-2. If you installed the other dotfiles in this repo, they will be broken symlinks which you can clean up or just leave hanging without ill effect.
+2. If you installed the other dotfiles in this repo you'll need to remove them by hand.
 
 ## Tell me more about the zshrc highlights
 
 * Selects **prompt colour schemes** based on hostname (home, work, unknown, plus red for root sessions)
 * **Extra keyboard navigation shortcuts** that I've picked up elsewhere over the years
 * **Hostname autocomplete entries are passed through to remote hosts.** Super useful when bouncing around servers!
-* **ssh-agent interface improvements.** Run ssh-agent to create an initial ssh-agent process. Run ssh-agent later to reconnect to the *same* agent.
+* **ssh-agent interface improvements.** Run ssh-agent to create an initial ssh-agent process on a server. Run ssh-agent later to reconnect to the *same* agent.
 * **Prompt, window title and screen/tmux title handling.** Prompt includes git information when you're inside a git repository.
 * A whole bunch of aliases, prettiness, easter eggs, etc
 
@@ -47,7 +48,7 @@ These other files are shorter and easier for you to understand at a quick glance
 * **screen and tmux** should look and behave similarly. In particular, tmux has screen's shortcut keys for all the commands I regularly use.
 * **vim** gets syntax highlighting support for a number of sysadminey file formats that aren't included by default.
 * **vim** config subscribes to the One True Indent Style of 4-space tabs.
-* **git** has a couple of one char aliases, enables colour everywhere... and signs all your commits with my name. TODO: fix the last one.
+* **git** has some one-char aliases.
 
 ## Tell me more about the automatic updates
 

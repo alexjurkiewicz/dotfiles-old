@@ -349,7 +349,7 @@ fi
 if ! [[ -d ~/.dotfiles/.git ]] ; then
     echo "$fg_bold[white]Cloning dotfiles repository to ~/.dotfiles...$reset_color"
     git clone -q git@github.com:alexjurkiewicz/dotfiles.git ~/.dotfiles
-    echo "$fg_bold[white]Done, run dotfiles-install to install all dotfiles$reset_color"
+    echo "$fg_bold[white]Done, create ~/.dotfiles/CONFIG from ~/.dotfiles/CONFIG.sample, then run dotfiles-install to install all dotfiles!$reset_color"
 else
     ( # Run in a subshell so if you ctrl-c during this you don't end up with strange CWD.
         # If we can see a newer revision in origin/master, tell the user, otherwise fetch origin/master and check on next shell initialisation.
@@ -383,32 +383,54 @@ fi
 
 # Install all dotfiles
 dotfiles-install() {
+    if ! [[ -f ~/.dotfiles/CONFIG ]] ; then
+        echo "You haven't created ~/.dotfiles/CONFIG yet!"
+        return 1
+    fi
+
     OLD_IFS=$IFS # I hate having to do this
     IFS='
 '
+    # For each file...
     for line in $(cat ~/.dotfiles/MAP | egrep -v '^#') ; do
         src=$(echo $line | awk '{print $1}')
         dst=$(echo $line | awk '{print $2}')
         dst=${(e)dst} # Perform parameter substitution on $dst
-        if ! [[ -e $dst ]] ; then
-            # The file doesn't exist, create a link to it from the repo
-            if ! [[ -d $(dirname $dst) ]] ; then
-                mkdir -pv $dst | tail -1
-            fi
-            ln -vs ~/.dotfiles/$src $dst
-        else
-            # The file does exist. It's either already been linked or is something else. In either case we won't touch it, but tell the user so they can be assured the command works in the former case and take action if desired in the latter.
-            if [[ -h $dst ]] && [[ $(zstat -L +link $dst) = */.dotfiles/$src ]] ; then
-                #echo "$dst is already installed: ($(zstat -L +link $dst))"
-            else
-                echo "$dst: file already exists, not installing."
-            fi
+        flags=$(echo $line | awk '{print $3}')
+
+        # Create the dest dir if it doesn't already exist
+        if ! [[ -d $(dirname $dst) ]] ; then
+            mkdir -pv $(dirname $dst) | tail -1
         fi
+        # Now install the file
+        case $flags in
+            *s*)
+                # This file isn't installed as a symlink, but as a real file,
+                # because we need to substitute some values in it
+                tempfile=$(mktemp .dotfiles.XXXXXX) ; chmod 600 $tempfile
+                cat ~/.dotfiles/$src > $tempfile
+                for line in $(cat ~/.dotfiles/CONFIG | egrep -v '^#') ; do
+                    sub_name=$(echo $line | cut -d\  -f1)
+                    sub_val=$(echo $line | cut -d\  -f2-)
+                    sed -i '' -e "s/\!\!$sub_name\!\!/$sub_val/g" $tempfile
+                done
+                mv $tempfile $dst
+                echo "Installed substituted copy of $src -> $dst"
+                ;;
+            *)
+                # This is a normal file installed as a symlink
+                if [[ -h $dst ]] && [[ $(zstat -L +link $dst) = */.dotfiles/$src ]] ; then
+                    # correct symlink already exists
+                    echo "Installed symlink of $src -> $dst"
+                fi
+                ln -vs ~/.dotfiles/$src $dst
+                ;;
+        esac
     done
     IFS=$OLD_IFS # Is this even neccessary? Probably.
 
     # Special snowflake config file handling:
-    # htop: uses /home/aj/.config/htop/htoprc in preference if it's there, so nuke it
+    # htop: moved config file location, so warn about this
     if [[ -f ~/.config/htop/htoprc ]] && [[ -f ~/.htoprc ]] ; then
         echo "$fg_bold[white]Warning: ~/.config/htop/htoprc and ~/.htoprc both exist, you should probably delete the latter.$reset_color"
     fi

@@ -1,0 +1,6 @@
+# This file contains key/value pairs for substitution into dotfiles
+# The format is simple. Lines starting with # are comments
+# All other lines are key/value pairs. Text up to the first space is the key. The rest is the value.
+# The key must not use funky characters.
+name Nonesuch Nobody
+email nobody@example.com

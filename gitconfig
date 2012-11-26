@@ -1,6 +1,6 @@
 [user]
-    name = Alex Jurkiewicz
-    email = alex@jurkiewi.cz
+    name = !!name!!
+    email = !!email!!
 [color]
     diff = always
     grep = always
