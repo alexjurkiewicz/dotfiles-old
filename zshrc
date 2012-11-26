@@ -412,7 +412,7 @@ dotfiles-install() {
                 for line in $(cat ~/.dotfiles/CONFIG | egrep -v '^#') ; do
                     sub_name=$(echo $line | cut -d\  -f1)
                     sub_val=$(echo $line | cut -d\  -f2-)
-                    sed -i '' -e "s/\!\!$sub_name\!\!/$sub_val/g" $tempfile
+                    sed -i'' -e "s/\!\!$sub_name\!\!/$sub_val/g" $tempfile
                 done
                 mv $tempfile $dst
                 echo "Installed substituted copy of $src -> $dst"
