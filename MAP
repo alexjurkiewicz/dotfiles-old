@@ -2,10 +2,13 @@
 # Maps configuration files from repo filename to real location
 #
 # Format: src dest [flags]
-zshrc       $HOME/.zshrc
-gitconfig   $HOME/.gitconfig            s
-htoprc      $HOME/.config/htop/htoprc
-screenrc    $HOME/.screenrc
-tmux.conf   $HOME/.tmux.conf
-vim         $HOME/.vim
-vimrc       $HOME/.vimrc
+zshrc                   $HOME/.zshrc
+gitconfig               $HOME/.gitconfig                s
+htoprc                  $HOME/.config/htop/htoprc
+screenrc                $HOME/.screenrc
+tmux.conf               $HOME/.tmux.conf
+vim/colors/inkpot.vim   $HOME/.vim/colors/inkpot.vim
+vim/syntax/nginx.vim    $HOME/.vim/syntax/nginx.vim
+vim/syntax/puppet.vim   $HOME/.vim/syntax/puppet.vim
+vim/syntax/vcl.vim      $HOME/.vim/syntax/vcl.vim
+vimrc                   $HOME/.vimrc
