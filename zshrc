@@ -116,7 +116,7 @@ zstyle ':completion:*' cache-path ~/.zcompcache
 
 # SSH autocomplete
 # This is cool. sshd is generally configured to allow passing LC_* envvars through, so we pass through our list of completion hosts in LC_XHOSTS and use it to build the host autocomplete list on the remote side!
-[[ -r ~/.ssh/known_hosts ]] && _ssh_hosts=(${${${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*}##\[}%%]:*}) || _ssh_hosts=() # fixed to ignore port specifiers: from oh-my-zsh pull request 440
+[[ -r ~/.ssh/known_hosts ]] && _ssh_hosts=(${${${${${${(f)"$(<~/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*}##\[}%%]:*}) || _ssh_hosts=() # fixed to ignore port specifiers: from oh-my-zsh pull request 440
 [[ -r /etc/hosts ]] && : ${(A)_etc_hosts:=${(s: :)${(ps:\t:)${${(f)~~"$(</etc/hosts)"}%%\#*}##[:blank:]#[^[:blank:]]#}}} || _etc_hosts=()
 [[ -n $LC_XHOSTS ]] && _lc_hosts=(${(s: :)LC_XHOSTS})
 _hosts=(
@@ -409,8 +409,8 @@ dotfiles-install() {
 
     # Special snowflake config file handling:
     # htop: uses /home/aj/.config/htop/htoprc in preference if it's there, so nuke it
-    if [[ -f $HOME/.config/htop/htoprc ]] && [[ -f $HOME/.htoprc ]] ; then
-        echo "$fg_bold[white]Warning: $HOME/.config/htop/htoprc and $HOME/.htoprc both exist, you should probably delete the latter.$reset_color"
+    if [[ -f ~/.config/htop/htoprc ]] && [[ -f ~/.htoprc ]] ; then
+        echo "$fg_bold[white]Warning: ~/.config/htop/htoprc and ~/.htoprc both exist, you should probably delete the latter.$reset_color"
     fi
 }
 
