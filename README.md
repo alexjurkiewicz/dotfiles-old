@@ -2,7 +2,7 @@
 
 This repository contains dotfiles that I use, as well as a system for installing and keeping them up to date. You are welcome to use this too, and I try to make that easy!
 
-## Key points
+## Key Points
 
 * `zsh` for main shell
 * Don't try and add too much high-level magic, just reduce the sharp edges and pain points the Linux environment has (ie, Make It All Work The Way I Want It To)
@@ -11,25 +11,23 @@ This repository contains dotfiles that I use, as well as a system for installing
 
 ## System Requirements
 
-1. A Github account that you can clone from on
-2. System with at least git & zsh installed
-3. Linux, OS X or FreeBSD OS
+1. A Github account
+3. Linux, OS X or FreeBSD with git & zsh installed
 
 ## Installation
 
-1. [Download the zshrc file](https://raw.github.com/alexjurkiewicz/dotfiles/master/zshrc) and put it in `~/.zshrc`. (I have a [short url](alex.jurkiewi.cz/zshrc), but you probably can't remember how to spell my last name :-).)
-2. On first start, the zshrc file will initialise some stuff, among that cloning this entire repository to `~/.dotfiles`.
+1. [Download the zshrc file](https://raw.github.com/alexjurkiewicz/dotfiles/master/zshrc) and put it in `~/.zshrc`.
+2. Start a new shell. The zshrc file will do some first-run config and automatically clone this entire repository to `~/.dotfiles`.
 
 Then you can:
 
 * Create your local CONFIG file.
-* Install all other dotfiles in the respository using `dotfiles-install`.
+* Install/update all other dotfiles in the respository using `dotfiles-install`.
 * Receive new updates with `dotfiles-update`.
-* Enjoy!
 
 ## Uninstallation
 
-1. Delete `~/.zshrc` and `~/.dotfiles`.
+1. Delete `~/.zshrc` and `~/.dotfiles/`.
 2. If you installed the other dotfiles in this repo you'll need to remove them by hand.
 
 ## Tell me more about the zshrc highlights
