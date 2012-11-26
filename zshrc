@@ -441,15 +441,17 @@ dotfiles-install() {
 }
 
 dotfiles-update() {
-    cd ~/.dotfiles
-    if [[ -n "$(git status --porcelain)" ]] ; then
-        echo "~/.dotfiles repository unclean, not proceeding."
-    else
-        oldrev=$(git rev-list --max-count 1 HEAD)
-        git merge origin/HEAD >/dev/null
-        echo "Updated to $(git rev-parse --short HEAD). Changes:"
-        git log --oneline $oldrev..HEAD | cat
-    fi
+    ( # Run in a subshell so if you ctrl-c during this you don't end up with strange CWD.
+        cd ~/.dotfiles
+        if [[ -n "$(git status --porcelain)" ]] ; then
+            echo "~/.dotfiles repository unclean, not proceeding."
+        else
+            oldrev=$(git rev-list --max-count 1 HEAD)
+            git merge origin/HEAD >/dev/null
+            echo "Updated to $(git rev-parse --short HEAD). Changes:"
+            git log --oneline $oldrev..HEAD | cat
+        fi
+    )
 }
 
 # Login prettiness
