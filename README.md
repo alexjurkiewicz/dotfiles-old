@@ -7,29 +7,29 @@ This repository contains dotfiles that I use, as well as a system for installing
 * `zsh` for main shell
 * Don't try and add too much high-level magic, just reduce the sharp edges and pain points the Linux environment has (ie, Make It All Work The Way I Want It To)
 * Unobtrusive, opt-in automatic updates.
-* Targets Linux, OS X and FreeBSD.
+* Backwards compatibility is good, but flawless backwards compatibility isn't a goal.
 
-## How do I start using this?
+## System Requirements
 
-1. [Download the zshrc file](https://raw.github.com/alexjurkiewicz/dotfiles/master/zshrc) and put it in `~/.zshrc`.
-2. Make sure your default shell is zsh (use `chsh` to change it), and start a new shell session.
-3. On first startup, the zshrc file will initialise some stuff, among that cloning this entire repository to `~/.dotfiles`.
+1. A Github account that you can clone from on
+2. System with at least git & zsh installed
+3. Linux, OS X or FreeBSD OS
+
+## Installation
+
+1. [Download the zshrc file](https://raw.github.com/alexjurkiewicz/dotfiles/master/zshrc) and put it in `~/.zshrc`. (I have a [short url](alex.jurkiewi.cz/zshrc), but you probably can't remember how to spell my last name :-).)
+2. On first start, the zshrc file will initialise some stuff, among that cloning this entire repository to `~/.dotfiles`.
 
 Then you can:
 
 * Install all other dotfiles in the respository using `dotfiles-install`. ("install" = `ln -s` each dotfile into place)
-* Enjoy.
+* Receive new updates with `dotfiles-update`.
+* Enjoy!
 
-## How do I stop using this?
+## Uninstallation
 
 1. Delete `~/.zshrc` and `~/.dotfiles`.
-2. If you installed the other dotfiles in here, they will be broken symlinks which you can probably leave hanging without ill effect. The more conscientious among you will want to clean that up.
-
-## What are the system requirements?
-
-* Linux, OS X or FreeBSD.
-* `git`, for talking to github
-* That's about it!
+2. If you installed the other dotfiles in this repo, they will be broken symlinks which you can clean up or just leave hanging without ill effect.
 
 ## Tell me more about the zshrc highlights
 
