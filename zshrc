@@ -448,7 +448,7 @@ dotfiles-update() {
         else
             oldrev=$(git rev-list --max-count 1 HEAD)
             git merge origin/HEAD >/dev/null
-            echo "Updated to $(git rev-parse --short HEAD). Changes:"
+            echo "Changes:"
             git log --oneline $oldrev..HEAD | cat
         fi
     )
