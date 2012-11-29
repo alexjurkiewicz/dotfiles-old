@@ -19,6 +19,7 @@ autoload colors && colors
 # What are we?
 export FULLHOST=$(hostname --fqdn 2>/dev/null || hostname -f 2>/dev/null || hostname)
 export SHORTHOST=$(echo $FULLHOST | cut -d. -f1-2)
+insudo() { [[ -n $SUDO_USER ]] && [[ $USER != $SUDO_USER ]] }
 
 # Where are we?
 case $FULLHOST in
@@ -345,47 +346,53 @@ fi
 # Update checking / management
 #####
 
-# Perform a git checkout of the files if they don't already exist
-if ! [[ -d ~/.dotfiles/.git ]] ; then
-    echo "$fg_bold[white]$ git clone -q git@github.com:alexjurkiewicz/dotfiles.git ~/.dotfiles$reset_color"
-    if git clone -q git@github.com:alexjurkiewicz/dotfiles.git ~/.dotfiles ; then
-        echo
-        echo "$fg_bold[white]Done, create ~/.dotfiles/CONFIG from ~/.dotfiles/CONFIG.sample, then run dotfiles-install to install all dotfiles!$reset_color"
-        echo
-    fi
-else
-    ( # Run in a subshell so if you ctrl-c during this you don't end up with strange CWD.
-        # If we can see a newer revision in origin/master, tell the user, otherwise fetch origin/master and check on next shell initialisation.
-        cd ~/.dotfiles
-        if [[ $(git rev-parse HEAD) != $(git rev-parse origin/master) ]] ; then
-            if [[ -n "$(git rev-list HEAD..origin/master)" ]] ; then
-                # We're behind. If this was blank, we'd be ahead, and in that case assume the user is aware of what's going on.
-                echo "$fg_bold[white]Dotfile updates are available:$reset_color"
-                git log --oneline HEAD..origin/master | cat
-                echo "$fg_bold[white]Run dotfiles-update to accept all changes$reset_color"
-                if [[ -n "$(git rev-list origin/master..HEAD)" ]] ; then
-                    echo "$fg_bold[white]Note: You have unpushed local changes."
+if ! insudo ; then
+    # Perform a git checkout of the files if they don't already exist
+    if ! [[ -d ~/.dotfiles/.git ]] ; then
+        echo "$fg_bold[white]$ git clone -q git@github.com:alexjurkiewicz/dotfiles.git ~/.dotfiles$reset_color"
+        if git clone -q git@github.com:alexjurkiewicz/dotfiles.git ~/.dotfiles ; then
+            echo
+            echo "$fg_bold[white]Done, create ~/.dotfiles/CONFIG from ~/.dotfiles/CONFIG.sample, then run dotfiles-install to install all dotfiles!$reset_color"
+            echo
+        fi
+    else
+        ( # Run in a subshell so if you ctrl-c during this you don't end up with strange CWD.
+            # If we can see a newer revision in origin/master, tell the user, otherwise fetch origin/master and check on next shell initialisation.
+            cd ~/.dotfiles
+            if [[ $(git rev-parse HEAD) != $(git rev-parse origin/master) ]] ; then
+                if [[ -n "$(git rev-list HEAD..origin/master)" ]] ; then
+                    # We're behind. If this was blank, we'd be ahead, and in that case assume the user is aware of what's going on.
+                    echo "$fg_bold[white]Dotfile updates are available:$reset_color"
+                    git log --oneline HEAD..origin/master | cat
+                    echo "$fg_bold[white]Run dotfiles-update to accept all changes$reset_color"
+                    if [[ -n "$(git rev-list origin/master..HEAD)" ]] ; then
+                        echo "$fg_bold[white]Note: You have unpushed local changes."
+                    fi
+                fi
+            else
+                # Be nice to github, restrict autoupdate check to daily
+                now=$(date +%s)
+                if [[ -f ~/.dotfiles/.git/FETCH_HEAD ]] ; then
+                    modified=$(zstat +mtime ~/.dotfiles/.git/FETCH_HEAD)
+                else
+                    # The file only exists after the first fetch, so fake it
+                    touch ~/.dotfiles/.git/FETCH_HEAD
+                    modified=0
+                fi
+                if [[ $(($now - $modified)) -gt 86400 ]] ; then
+                    ( out=$(git fetch 2>&1) || echo "\n$fg_bold[white]Could not fetch ~/.dotfiles repository: $out$reset_color" ) &|
                 fi
             fi
-        else
-            # Be nice to github, restrict autoupdate check to daily
-            now=$(date +%s)
-            if [[ -f ~/.dotfiles/.git/FETCH_HEAD ]] ; then
-                modified=$(zstat +mtime ~/.dotfiles/.git/FETCH_HEAD)
-            else
-                # The file only exists after the first fetch, so fake it
-                touch ~/.dotfiles/.git/FETCH_HEAD
-                modified=0
-            fi
-            if [[ $(($now - $modified)) -gt 86400 ]] ; then
-                ( out=$(git fetch 2>&1) || echo "\n$fg_bold[white]Could not fetch ~/.dotfiles repository: $out$reset_color" ) &|
-            fi
-        fi
-    )
+        )
+    fi
 fi
 
 # Install all dotfiles
 dotfiles-install() {
+    if insudo ; then
+        echo "Can't do this within sudo!"
+        return 1
+    fi
     if ! [[ -f ~/.dotfiles/CONFIG ]] ; then
         echo "You haven't created ~/.dotfiles/CONFIG yet!"
         return 1
@@ -441,6 +448,10 @@ dotfiles-install() {
 }
 
 dotfiles-update() {
+    if insudo ; then
+        echo "Can't do this in sudo!"
+        return 1
+    fi
     ( # Run in a subshell so if you ctrl-c during this you don't end up with strange CWD.
         cd ~/.dotfiles
         if [[ -n "$(git status --porcelain)" ]] ; then
