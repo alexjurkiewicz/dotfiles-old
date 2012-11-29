@@ -5,6 +5,7 @@
 # This is a very heavy RC file. If you're logging into a heavily loaded
 # system, consider using a simpler shell until you fix it: ssh -t host /bin/sh
 
+[[ -r ~/.zshrc.local.cache ]] && . ~/.zshrc.local.cache
 [[ -r ~/.zshrc.local.before ]] && . ~/.zshrc.local.before
 
 #####
@@ -47,10 +48,10 @@ unset MAILCHECK
 unset MAIL
 
 # Autodetect $LANG. Since this is slow, cache the result so it's not run every time.
-if [[ ! -f ~/.zshrc.local.before ]] ; then
-    touch ~/.zshrc.local.before
+if [[ ! -f ~/.zshrc.local.cache ]] ; then
+    touch ~/.zshrc.local.cache
 fi
-if ! egrep -q "^export LANG=" ~/.zshrc.local.before ; then
+if ! egrep -q "^export LANG=" ~/.zshrc.local.before ~/.zshrc.local.cache 2>/dev/null ; then
     echo -n "Autodetecting \$LANG... "
     if [[ -n "$(locale -a | egrep -i "en_(AU|US)\.utf-?8" | head -1)" ]] ; then
         # Linux: en_AU.utf8
@@ -61,7 +62,7 @@ if ! egrep -q "^export LANG=" ~/.zshrc.local.before ; then
         export LANG=C
     fi
     echo $LANG
-    echo "export LANG=$LANG" >> ~/.zshrc.local.before
+    echo "export LANG=$LANG" >> ~/.zshrc.local.cache
 fi
 
 autoload -U tcp_open
@@ -192,11 +193,11 @@ if ! whence vess &>/dev/null ; then
     if [[ -n $vess ]] ; then
         echo $vess
         alias vess=$vess
-        echo "alias vess=$vess" >> ~/.zshrc.local.before
+        echo "alias vess=$vess" >> ~/.zshrc.local.cache
     else
         echo "not found!"
         alias vess=$PAGER
-        echo "alias vess=$PAGER" >> ~/.zshrc.local.before
+        echo "alias vess=$PAGER" >> ~/.zshrc.local.cache
     fi
 fi
 # New commands
