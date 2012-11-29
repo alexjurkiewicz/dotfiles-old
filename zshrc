@@ -9,6 +9,19 @@
 [[ -r ~/.zshrc.local.before ]] && . ~/.zshrc.local.before
 
 #####
+# Helper functions
+#####
+getdotfilesconfig() {
+    if ! [[ -f ~/.dotfiles/CONFIG ]] ; then
+        return
+    fi
+    if ! egrep -q "^$1 " ~/.dotfiles/CONFIG ; then
+        return
+    fi
+    echo $(egrep "^$1 " ~/.dotfiles/CONFIG | cut -d\  -f2-)
+}
+
+#####
 # Basic Information
 #####
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/sbin:/bin:$PATH
