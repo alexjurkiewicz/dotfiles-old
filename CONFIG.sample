@@ -2,6 +2,12 @@
 # The format is simple. Lines starting with # are comments
 # All other lines are key/value pairs. Text up to the first space is the key. The rest is the value.
 # The key must not use funky characters.
+#
+# Basic identification
 name Nonesuch Nobody
 email nobody@example.com
+# Prepend extra directories to PATH
 extrapath /opt/local/bin:/opt/local/sbin
+# Used for location-aware prompt colouring
+locations_home="*.bluebottle.net.au|*.home|aj*|*.local"
+locations_work="*.company.com|*.company|*company*"

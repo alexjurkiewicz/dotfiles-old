@@ -40,17 +40,17 @@ insudo() { [[ -n $SUDO_USER ]] && [[ $USER != $SUDO_USER ]] }
 
 # Where are we?
 case $FULLHOST in
-*.bluebottle.net.au|*.home|ajlaptop*|ajvm*|*.local)
-    ourloc=home
-    ucolor=$fg_bold[green]
-    ;;
-*.siteminder.com|*.siteminder.com.au|*.smuat|*.smtpi|*.bbuat|*.bbtpi|*.siteminder.co.uk|*.syd|*.dev)
-    ourloc=work
-    ucolor=$fg_bold[cyan]
-    ;;
-*)
-    ourloc=unknown
-    ucolor=$fg_bold[white] ;;
+    ${~$(getdotfilesconfig locations_home)}) # search zshexpn(1) for '${~' if you want to know what this param flag does
+        ourloc=home
+        ucolor=$fg_bold[green]
+        ;;
+    ${~$(getdotfilesconfig locations_work)})
+        ourloc=work
+        ucolor=$fg_bold[cyan]
+        ;;
+    *)
+        ourloc=unknown
+        ucolor=$fg_bold[white] ;;
 esac
 
 #####
