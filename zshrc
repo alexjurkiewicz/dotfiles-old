@@ -25,6 +25,9 @@ getdotfilesconfig() {
 # Basic Information
 #####
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/sbin:/bin:$PATH
+if [[ -n $(getdotfilesconfig extrapath) ]] ; then
+    export PATH=$(getdotfilesconfig extrapath):$PATH
+fi
 
 # Initial colours setup -- required by a few things further in
 [[ -x $(which dircolors) ]] && eval `dircolors` >/dev/null 2>&1

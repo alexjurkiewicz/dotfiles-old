@@ -4,3 +4,4 @@
 # The key must not use funky characters.
 name Nonesuch Nobody
 email nobody@example.com
+extrapath /opt/local/bin:/opt/local/sbin
