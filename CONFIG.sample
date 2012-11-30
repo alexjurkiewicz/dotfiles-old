@@ -9,5 +9,5 @@ email nobody@example.com
 # Prepend extra directories to PATH
 extrapath /opt/local/bin:/opt/local/sbin
 # Used for location-aware prompt colouring
-locations_home="*.bluebottle.net.au|*.home|aj*|*.local"
-locations_work="*.company.com|*.company|*company*"
+locations_home *.bluebottle.net.au|*.home|*.local
+locations_work *company*|aj-macbook.*
