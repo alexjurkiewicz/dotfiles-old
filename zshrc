@@ -442,6 +442,7 @@ dotfiles-install() {
                     sed -i'' -e "s/\!\!$sub_name\!\!/$sub_val/g" $tempfile
                 done
                 mv $tempfile $dst
+                rm -f ${tempfile}-e # OSX (And FreeBSD?) sed generates these files due to different parsing of the above sed's options
                 echo "Installed substituted copy of $src -> $dst"
                 ;;
             *)
