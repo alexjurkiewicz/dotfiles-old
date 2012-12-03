@@ -438,7 +438,7 @@ dotfiles-install() {
                 cat ~/.dotfiles/$src > $tempfile
                 for line in $(cat ~/.dotfiles/CONFIG | egrep -v '^#') ; do
                     sub_name=$(echo $line | cut -d\  -f1)
-                    sub_val=$(echo $line | cut -d\  -f2-)
+                    sub_val=$(echo $line | cut -d\  -f2- | sed 's!\/!\\/!g') # XXX: Doesn't escape \n or &
                     sed -i'' -e "s/\!\!$sub_name\!\!/$sub_val/g" $tempfile
                 done
                 mv $tempfile $dst
