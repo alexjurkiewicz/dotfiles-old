@@ -233,6 +233,11 @@ alias clean='sed -e "s/[ \t]*$//"' # XXX: breaks when the last character on a li
 alias portsnap-update='sudo portsnap fetch && sudo portsnap update' # FreeBSD
 whence motd &>/dev/null || alias motd="[[ -f /etc/motd ]] && cat /etc/motd"
 sleeptil () {
+    if [[ $(uname -s) = "Darwin" ]] ; then
+        echo "Sorry, OSX date isn't smart enough to do this."
+        return 1
+    fi
+    [[ -z "$1" ]] && echo 'USAGE: `sleeptil [-q] <timespec>` eg `sleeptil 10pm`' && return 1
     [[ $1 == "-q" ]] && local quiet=1 && shift
 
     local until=$(date -d "$*" +%s) # this is somewhere that the $@/$* difference matters
