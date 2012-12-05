@@ -69,11 +69,9 @@ if [[ ! -f ~/.zshrc.local.cache ]] ; then
 fi
 if ! egrep -q "^export LANG=" ~/.zshrc.local.before ~/.zshrc.local.cache 2>/dev/null ; then
     echo -n "Autodetecting \$LANG... "
-    if [[ -n "$(locale -a | egrep -i "en_(AU|US)\.utf-?8" | head -1)" ]] ; then
-        # Linux: en_AU.utf8
-        # FreeBSD / OSX: en_AU.UTF-8
-        # Use AU or US utf8, or fall back to C
-        export LANG=$(locale -a | egrep -i "en_(AU|US)\.utf-?8" | head -1)
+    real_locale=$(for locale in `getdotfilesconfig preferred_locale | tr ',' '\n'` ; do if real_locale=$(locale -a | grep $locale | egrep -i 'utf.?8') ; then echo $real_locale ; break ; fi ; done)
+    if [[ -n $real_locale ]] ; then
+        export LANG=$real_locale
     else
         export LANG=C
     fi

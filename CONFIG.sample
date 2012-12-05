@@ -11,3 +11,6 @@ extrapath /opt/local/bin:/opt/local/sbin
 # Used for location-aware prompt colouring
 locations_home *.bluebottle.net.au|*.home|*.local
 locations_work *company*|aj-macbook.*
+# Comma-separated list of preferred locales (eg en_AU, fr_FR)
+# (if none of your locales are available in utf8, we fall back to 'C')
+preferred_locale en_AU,en_GB,en_US
