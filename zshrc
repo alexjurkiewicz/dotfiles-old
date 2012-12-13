@@ -231,6 +231,18 @@ hl() { pattern=$(echo $1 | sed 's!\/!\\/!g') ; sed "s/$pattern/[1m[31m&[0m/g;
 alias clean='sed -e "s/[ \t]*$//"' # XXX: breaks when the last character on a line is 't'
 [[ -f /usr/share/pyshared/bzrlib/patiencediff.py ]] && alias pdiff="python /usr/share/pyshared/bzrlib/patiencediff.py"
 alias portsnap-update='sudo portsnap fetch && sudo portsnap update' # FreeBSD
+puppetup () {
+    case $(puppet --version) in
+        3.*)
+            echo '$ sudo puppet agent -to'
+            sudo puppet agent -to
+            ;;
+        *)
+            echo '$ sudo puppetd -t'
+            sudo puppetd -t
+            ;;
+    esac
+}
 whence motd &>/dev/null || alias motd="[[ -f /etc/motd ]] && cat /etc/motd"
 sleeptil () {
     if [[ $(uname -s) = "Darwin" ]] ; then
