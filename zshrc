@@ -181,6 +181,7 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
+export MYSQL_HISTFILE="/dev/null"
 
 # SSH Agent. Store agent details in a file. Load the details and if they're invalid create a new agent.
 ssh-agent () { 
