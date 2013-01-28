@@ -413,7 +413,7 @@ if ! insudo ; then
                     modified=0
                 fi
                 if [[ $(($now - $modified)) -gt 86400 ]] ; then
-                    ( out=$(git fetch -q >/dev/null 2>&1) || echo "\n$fg_bold[white]Could not fetch ~/.dotfiles repository: $out$reset_color\n" ) &|
+                    ( out=$(git fetch -q >/dev/null 2>&1) || echo "\n$fg_bold[white]Could not fetch ~/.dotfiles repository! Try \`git pull\` in ~/.dotfiles\n" ) &|
                 fi
             fi
         )
