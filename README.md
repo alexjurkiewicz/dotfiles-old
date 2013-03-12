@@ -16,8 +16,8 @@ This repository contains dotfiles that I use, as well as a system for installing
 
 ## Installation
 
-1. [Download the zshrc file](https://raw.github.com/alexjurkiewicz/dotfiles/master/zshrc) and put it in `~/.zshrc`.
-2. Start a new shell. The zshrc file will do some first-run config and automatically clone this entire repository to `~/.dotfiles`.
+1. `wget -O ~/.zshrc https://raw.github.com/alexjurkiewicz/dotfiles/master/zshrc`
+2. `. ~/.zshrc`
 
 Then you can:
 
