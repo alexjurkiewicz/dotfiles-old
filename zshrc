@@ -239,7 +239,16 @@ setenv() { export $1=$2 } # Woohoo csh
 sudo() { [[ $1 == (vi|vim) ]] && ( shift && sudoedit "$@" ) || command sudo "$@"; } # sudo vi/vim => sudoedit
 excuse() { nc bofh.jeffballard.us 666 | tail -1 | sed -e 's/.*: //' }
 hl() { pattern=$(echo $1 | sed 's!\/!\\/!g') ; sed "s/$pattern/[1m[31m&[0m/g;" } # Like grep, but prints non-matching lines
-alias clean='sed -e "s/[ \t]*$//"' # XXX: breaks when the last character on a line is 't'
+clean () {
+    case `uname -s` in
+        Darwin) # osx sucks, special case the -i
+            sed -i '' -e's/[[:space:]]*$//' $1
+            ;;
+        *)
+            sed -i'' -e's/[[:space:]]*$//' $1
+            ;;
+    esac
+}
 [[ -f /usr/share/pyshared/bzrlib/patiencediff.py ]] && alias pdiff="python /usr/share/pyshared/bzrlib/patiencediff.py"
 alias portsnap-update='sudo portsnap fetch && sudo portsnap update' # FreeBSD
 puppetup () {
