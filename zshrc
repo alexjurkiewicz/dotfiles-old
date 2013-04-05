@@ -263,6 +263,13 @@ puppetup () {
             ;;
     esac
 }
+puppet-syntax-check () {
+    files="$(find . -name '*.pp' -print0)"
+    numfiles=$(echo $files | tr '\0' '\n' | wc -l | awk '{print $1}')
+    files_per_invoc=$(($numfiles / $NUM_CPUS + 1))
+    echo "Testing $numfiles *.pp files founder under $PWD..."
+    echo "$files" | nice xargs -0 -n $files_per_invoc -P $NUM_CPUS puppet parser validate
+}
 whence motd &>/dev/null || alias motd="[[ -f /etc/motd ]] && cat /etc/motd"
 sleeptil () {
     if [[ $(uname -s) = "Darwin" ]] ; then
