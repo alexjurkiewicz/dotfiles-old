@@ -53,6 +53,16 @@ case $FULLHOST in
         ucolor=$fg_bold[white] ;;
 esac
 
+# How many CPUs do we have?
+case $(uname -s) in
+    Linux)
+        NUM_CPUS=$(nproc)
+        ;;
+    Darwin|FreeBSD)
+        NUM_CPUS=$(sysctl -n hw.ncpu)
+        ;;
+esac
+
 #####
 # Environment Setup
 #####
