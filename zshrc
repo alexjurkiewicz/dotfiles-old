@@ -264,11 +264,15 @@ puppetup () {
     esac
 }
 puppet-syntax-check () {
-    files="$(find . -name '*.pp' -print0)"
-    numfiles=$(echo $files | tr '\0' '\n' | wc -l | awk '{print $1}')
-    files_per_invoc=$(($numfiles / $NUM_CPUS + 1))
-    echo "Testing $numfiles *.pp files found in $PWD..."
-    echo "$files" | nice xargs -0 -n $files_per_invoc -P $NUM_CPUS puppet parser validate
+    if [[ -f "${1=.}" ]] ; then
+        puppet parser validate "${1=.}"
+    else
+        files="$(find "${1=.}" -name '*.pp' -print0)"
+        numfiles=$(echo $files | tr '\0' '\n' | wc -l | awk '{print $1}')
+        files_per_invoc=$(($numfiles / $NUM_CPUS + 1))
+        echo "Testing $(($numfiles - 1)) *.pp files found in ${1=.}..."
+        echo "$files" | nice xargs -0 -n $files_per_invoc -P $NUM_CPUS puppet parser validate
+    fi
 }
 puppet-clean-inplace () {
     if ! which puppet-clean &>/dev/null ; then
