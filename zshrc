@@ -277,7 +277,7 @@ puppet-syntax-check () {
 puppet-clean-inplace () {
     if ! which puppet-clean &>/dev/null ; then
         echo "Requires puppet-clean"
-        echo "gem instal puppet-clean"
+        echo "gem install puppet-clean"
         return 1
     else
         file="$1"
