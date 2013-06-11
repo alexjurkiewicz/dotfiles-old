@@ -1,7 +1,7 @@
 runtime! debian.vim
 
 " See http://vimdoc.sourceforge.net/htmldoc/options.html
-set incsearch nocompatible showmatch ignorecase smartcase scrolloff=5 noai vb t_vb= noerrorbells wildmenu t_Co=256 modeline smarttab
+set incsearch nocompatible showmatch ignorecase smartcase scrolloff=5 noai vb t_vb= noerrorbells wildmenu t_Co=256 modelines=3 smarttab
 " :set noet ts=8 to temporarily override
 set et ts=4 softtabstop=4 shiftwidth=4
 
