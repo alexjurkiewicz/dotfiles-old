@@ -175,6 +175,15 @@ if [[ -x $(which vim) ]] ; then
 else
     export EDITOR=vi ; export VISUAL=vi
 fi
+vim () {
+    for i in $@ ; do
+        if [[ -d $i ]] ; then
+            echo "$i is a directory!"
+            return 1
+        fi
+    done
+    command vim "$@"
+}
 
 # Colours
 if ls -F --color=auto >&/dev/null; then
