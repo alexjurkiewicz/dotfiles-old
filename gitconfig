@@ -18,4 +18,4 @@
     dh = diff HEAD
     dc = diff --cached
     l = log
-    pnp = !git fetch && git rebase origin/master && git push
+    pnp = !git stash && git fetch && git rebase origin/master && git push && git stash apply
