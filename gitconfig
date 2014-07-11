@@ -18,4 +18,5 @@
     dh = diff HEAD
     dc = diff --cached
     l = log
+    ll = log --format='tformat:%C(yellow)%h%Creset %C(bold)%aN%Creset %C(cyan)%s %b%Creset (%cr)'
     pnp = !git fetch && git rebase origin/master && git push
