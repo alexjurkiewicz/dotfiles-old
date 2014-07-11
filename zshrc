@@ -283,17 +283,6 @@ puppet-syntax-check () {
         echo "$files" | nice xargs -0 -n $files_per_invoc -P $NUM_CPUS puppet parser validate
     fi
 }
-puppet-clean-inplace () {
-    if ! which puppet-clean &>/dev/null ; then
-        echo "Requires puppet-clean"
-        echo "gem install puppet-clean"
-        return 1
-    else
-        file="$1"
-        tempfile=$(mktemp /tmp/puppetclean.XXXXXX)
-        puppet-clean -belmow -t 4 $file > $tempfile ; mv $tempfile $file
-    fi
-}
 whence motd &>/dev/null || alias motd="[[ -f /etc/motd ]] && cat /etc/motd"
 sleeptil () {
     if [[ $(uname -s) = "Darwin" ]] ; then
