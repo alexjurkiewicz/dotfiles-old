@@ -3,6 +3,7 @@
 #
 # Format: src dest [flags]
 zshrc                   $HOME/.zshrc
+zshenv                  $HOME/.zshenv
 gitconfig               $HOME/.gitconfig                s
 htoprc                  $HOME/.config/htop/htoprc
 screenrc                $HOME/.screenrc
