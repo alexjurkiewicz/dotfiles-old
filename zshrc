@@ -89,13 +89,9 @@ if ! egrep -q "^export LANG=" ~/.zshrc.local.before ~/.zshrc.local.cache 2>/dev/
     echo "export LANG=$LANG" >> ~/.zshrc.local.cache
 fi
 
-autoload -U tcp_open
 zmodload zsh/stat
 echo ${^fpath}/url-quote-magic(N) | grep -q url-quote-magic && autoload -U url-quote-magic && zle -N self-insert url-quote-magic
-autoload -U zed
 autoload -U zargs
-autoload -U zcalc
-autoload -U zmv
 
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>' #Removed '/'
 
