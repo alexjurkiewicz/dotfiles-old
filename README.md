@@ -53,7 +53,7 @@ These other files are shorter and easier for you to understand at a quick glance
 A simple process.
 
 * `git fetch` runs in the ~/.dotfiles repository a maximum of once per day.
-* If there are pending updates, you are prompted on terminal 
+* If there are pending updates, you are prompted on shell start.
 * The file 'MAP' stores a mapping of repository files to real locations, and is used by the dotfiles-install command.
 
 ## Tell me more
