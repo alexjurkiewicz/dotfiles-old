@@ -151,7 +151,8 @@ _hosts=(
     "$_lc_hosts[@]"
     localhost
 )
-alias ssh="LC_XHOSTS=\"$_hosts[*]\" ssh"
+export LC_XHOSTS="$_hosts[*]"
+#alias ssh="LC_XHOSTS=\"$_hosts[*]\" ssh"
 
 # Other autocomplete
 zstyle ':completion:*:hosts' hosts $_hosts
@@ -169,7 +170,6 @@ export ZLE_REMOVE_SUFFIX_CHARS='' && export ZLE_SPACE_SUFFIX_CHARS='' # Don't mo
 #####
 # Alias, Default Programs, Program Options Setup
 #####
-alias ssh="LC_XHOSTS=\"$_hosts[*]\" ssh"
 if [[ -x $(which vim) ]] ; then
     export EDITOR=vim ; export VISUAL=vim ; alias vi=vim
 else
