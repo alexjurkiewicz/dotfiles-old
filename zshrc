@@ -545,14 +545,6 @@ dotfiles-update() {
 if [[ -o login ]] && [[ -z "$TMUX" ]] ; then
     echo
     hostname
-    if [[ -f /etc/issue.net ]] ; then
-        head -n 1 /etc/issue.net
-    elif [[ -f /etc/issue ]] ; then
-        head -n 1 /etc/issue
-    elif [[ `uname` = Darwin ]] ; then
-        sw_vers -productName | tr '\n' ' ' ; sw_vers -productVersion
-    fi
-    uname -srm
     echo
 fi
 
