@@ -537,17 +537,6 @@ dotfiles-update() {
     )
 }
 
-# Login prettiness
-#####
-
-# If this is a login shell do a basic fingerprint on the system
-# tmux by default creates login shells so don't when we're in there
-if [[ -o login ]] && [[ -z "$TMUX" ]] ; then
-    echo
-    hostname
-    echo
-fi
-
 # Run the local override file if it's there
 [[ -r ~/.zshrc.local.after ]] && . ~/.zshrc.local.after
 
