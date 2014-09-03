@@ -96,8 +96,8 @@ autoload -U zargs
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>' #Removed '/'
 
 HISTFILE=~/.histfile
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=100000
+SAVEHIST=100000
 setopt nobeep interactivecomments kshglob autocd histfindnodups noflowcontrol extendedglob extendedhistory
 setopt autolist nolistambiguous # On first tab, complete as much as you can and list the choices
 setopt histnostore              # Don't put 'history' into the history list
