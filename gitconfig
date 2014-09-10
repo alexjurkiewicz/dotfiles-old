@@ -5,6 +5,8 @@
     diff = always
     grep = always
     status = always
+[push]
+    default = simple
 [alias]
     st = status
     s = status
