@@ -17,7 +17,7 @@ This repository contains dotfiles that I use, as well as a system for installing
 ## Installation
 
 1. `wget -O ~/.zshrc https://raw.github.com/alexjurkiewicz/dotfiles/master/zshrc`
-2. `. ~/.zshrc`
+2. `exec zsh -il`
 
 Then you can:
 
