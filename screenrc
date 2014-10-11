@@ -14,5 +14,5 @@ vbell off
 # %{= Kw} : back to normal colour
 # %+Lw : print the rest of the windows
 # %= : this section is expanded so the bar fits across the entire screen if needed
-# | %l | ${FULLHOST} : print load and full hostname
-caption always "%{= Kw}%-Lw%{= KW}[%50>%n%f* %t]%{= Kw}%+Lw%-043=| %l | ${FULLHOST}"
+# | ${FULLHOST} : print full hostname
+caption always "%{= Kw}%-Lw%{= KW}[%50>%n%f* %t]%{= Kw}%+Lw%=| ${FULLHOST}"
