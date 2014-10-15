@@ -95,7 +95,7 @@ autoload -U zargs
 
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>' #Removed '/'
 
-HISTFILE=~/.histfile
+HISTFILE=~/.histfile.$FULLHOST
 HISTSIZE=100000
 SAVEHIST=100000
 setopt nobeep interactivecomments kshglob autocd histfindnodups noflowcontrol extendedglob extendedhistory
