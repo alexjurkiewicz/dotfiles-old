@@ -426,6 +426,7 @@ if ! insudo ; then
     else
         ( # Run in a subshell so if you ctrl-c during this you don't end up with strange CWD.
             # If we can see a newer revision in origin/master, tell the user, otherwise fetch origin/master and check on next shell initialisation.
+            [[ -x $(which git) ]] || exit 0 # If there's no git on this system, don't try and auto-update
             cd ~/.dotfiles
             if [[ $(git rev-parse HEAD) != $(git rev-parse origin/master) ]] ; then
                 if [[ -n "$(git rev-list HEAD..origin/master)" ]] ; then
