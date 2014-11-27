@@ -198,6 +198,22 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 export MYSQL_HISTFILE="/dev/null"
 
+# Try to reuse any existing SSH_AUTH_SOCK if one is not defined
+if [[ -z $SSH_AUTH_SOCK ]] ; then
+    case $(uname -s) in
+        Darwin)
+            pattern='*/launch-*/Listeners'
+            ;;
+        *)
+            pattern='*/ssh*/agent*'
+            ;;
+    esac
+    potential_socket=$(find /tmp/ -user ${SUDO_UID:-$UID} -type s -path $pattern 2>/dev/null | head -1)
+    if [[ -r $potential_socket ]] ; then
+        echo "Found an existing SSH auth socket: $potential_socket"
+        export SSH_AUTH_SOCK=$potential_socket
+    fi
+fi
 # SSH Agent. Store agent details in a file. Load the details and if they're invalid create a new agent.
 ssh-agent () { 
     [[ -S $SSH_AUTH_SOCK ]] && echo "Agent socket already defined." && return
