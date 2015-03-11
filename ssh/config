@@ -2,12 +2,19 @@ Host *.bluebottle.net.au
 User aj
 ForwardAgent yes
 
+# Global defaults
 Host *
-Compression yes
-Protocol 2
-PreferredAuthentications publickey,password,keyboard-interactive
-# So zsh hostname completion works. Screw paranoia
-HashKnownHosts no
-# Long live paranoia
-Ciphers aes128-ctr,aes256-ctr,aes128-cbc,aes256-cbc
-MACs hmac-sha1
+    Protocol 2
+    PreferredAuthentications publickey,password,keyboard-interactive
+    ForwardAgent yes
+    HashKnownHosts no
+    ServerAliveInterval 10
+    Compression yes
+    User aj
+    ControlMaster auto
+    ControlPath ~/.ssh/%r@%h:%p
+    ControlPersist 8h
+    # probably unnecessary paranoia, see https://news.ycombinator.com/item?id=8843994
+    #KexAlgorithms diffie-hellman-group-exchange-sha256
+    #Ciphers aes256-ctr,aes192-ctr,aes128-ctr
+    #MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,
