@@ -15,6 +15,7 @@ au BufRead,BufNewFile nginx.conf* set ft=nginx
 au BufRead,BufNewFile *.jinja set ft=htmljinja
 au BufRead,BufNewFile *.textile set ft=textile
 au BufRead,BufNewFile *.pp set ft=puppet
+au BufRead,BufNewFile *.mako set ft=html
 au FileType python setlocal et ts=4 softtabstop=4 shiftwidth=4
 " Assume /bin/sh is posix-compatible (not bourne-compatible)
 let g:is_posix=1
