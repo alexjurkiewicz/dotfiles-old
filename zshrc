@@ -197,6 +197,7 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 export MYSQL_HISTFILE="/dev/null"
+export ACK_PAGER="less -R"
 
 # Try to reuse any existing SSH_AUTH_SOCK if one is not defined
 if [[ -z $SSH_AUTH_SOCK ]] ; then
