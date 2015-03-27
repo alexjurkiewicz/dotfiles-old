@@ -36,7 +36,9 @@ autoload colors && colors
 # What are we?
 export FULLHOST=$(hostname --fqdn 2>/dev/null || hostname -f 2>/dev/null || hostname)
 export SHORTHOST=$(echo $FULLHOST | cut -d. -f1-2)
-insudo() { [[ -n $SUDO_USER ]] && [[ $USER != $SUDO_USER ]] }
+insudo() {
+    [[ -n $SUDO_USER ]] && [[ $USER != $SUDO_USER ]]
+}
 
 # Where are we?
 case $FULLHOST in
@@ -90,7 +92,7 @@ if ! egrep -q "^export LANG=" ~/.zshrc.local.before ~/.zshrc.local.cache 2>/dev/
 fi
 
 zmodload zsh/stat
-echo ${^fpath}/url-quote-magic(N) | grep -q url-quote-magic && autoload -U url-quote-magic && zle -N self-insert url-quote-magic
+echo "${^fpath}/url-quote-magic(N)" | grep -q url-quote-magic && autoload -U url-quote-magic && zle -N self-insert url-quote-magic
 autoload -U zargs
 
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>' #Removed '/'
@@ -257,8 +259,15 @@ alias t=tmux
 alias s=screen
 alias g=git
 dstat --list &>/dev/null && alias dstat="dstat -tpcmdgn --top-cpu --top-bio" || alias dstat="dstat -tpcmdgn" # a little hacky, but I believe --top-cpu and --top-bio have always been core dstat plugins so just check if this dstat version has the plugin system
-setenv() { export $1=$2 } # Woohoo csh
-sudo() { [[ $1 == (vi|vim) ]] && ( shift && sudoedit "$@" ) || command sudo "$@"; } # sudo vi/vim => sudoedit
+setenv() { export $1=$2l } # Woohoo csh
+# convert 'sudo vim? $@' to 'sudoedit $@'
+sudo() {
+    if [[ $1 == (vi|vim) ]] ; then
+        ( shift && sudoedit "$@" )
+    else
+        command sudo "$@"
+    fi
+}
 excuse() { nc bofh.jeffballard.us 666 | tail -1 | sed -e 's/.*: //' }
 hl() { pattern=$(echo $1 | sed 's!\/!\\/!g') ; sed "s/$pattern/[1m[31m&[0m/g;" } # Like grep, but prints non-matching lines
 clean () {
