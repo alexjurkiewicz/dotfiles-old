@@ -27,7 +27,7 @@ if has("autocmd")
 endif
 
 " Remember for 100 files: 1000 lines per register, but not for files in /mnt or /media or /tmp. Save to ~/.viminfo
-set viminfo='100,s1000,r/mnt,r/media,r/tmp,n~/.viminfo
+set viminfo='100,s1000,r/mnt,r/media,r/tmp,r~.git/COMMIT_EDITMSG,n~/.viminfo
 
 " Theme settings
 set bg=dark
