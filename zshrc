@@ -283,16 +283,8 @@ clean () {
 [[ -f /usr/share/pyshared/bzrlib/patiencediff.py ]] && alias pdiff="python /usr/share/pyshared/bzrlib/patiencediff.py"
 alias portsnap-update='sudo portsnap fetch && sudo portsnap update' # FreeBSD
 puppetup () {
-    case $(puppet --version) in
-        3.*)
-            echo '$ sudo puppet agent -to'
-            sudo puppet agent -to
-            ;;
-        *)
-            echo '$ sudo puppetd -t'
-            sudo puppetd -t
-            ;;
-    esac
+    echo '$ sudo puppet agent -t'
+    sudo puppet agent -t
 }
 puppet-syntax-check () {
     if [[ -f "${1=.}" ]] ; then
