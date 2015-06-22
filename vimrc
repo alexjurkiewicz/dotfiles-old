@@ -12,6 +12,8 @@ syntax sync minlines=200
 filetype plugin indent on
 au BufRead,BufNewFile /etc/nginx/* set ft=nginx
 au BufRead,BufNewFile nginx.conf* set ft=nginx
+au BufRead,BufNewFile */httpd/*.conf set ft=apache
+au BufRead,BufNewFile */apache/*.conf set ft=apache
 au BufRead,BufNewFile *.jinja set ft=htmljinja
 au BufRead,BufNewFile *.textile set ft=textile
 au BufRead,BufNewFile *.pp set ft=puppet
