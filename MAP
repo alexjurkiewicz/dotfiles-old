@@ -12,4 +12,5 @@ vim/colors/inkpot.vim   $HOME/.vim/colors/inkpot.vim
 vim/syntax/nginx.vim    $HOME/.vim/syntax/nginx.vim
 vim/syntax/puppet.vim   $HOME/.vim/syntax/puppet.vim
 vim/syntax/vcl.vim      $HOME/.vim/syntax/vcl.vim
+vim/syntax/levdes.vim   $HOME/.vim/syntax/levdes.vim
 vimrc                   $HOME/.vimrc
