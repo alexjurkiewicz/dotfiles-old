@@ -117,8 +117,13 @@ bindkey '^E' end-of-line
 # gnome terminal, konsole, terminator, iTerm (basically everything except Putty)
 bindkey '^[5D' emacs-backward-word      # ctrl-left (Linux)
 bindkey '^[5C' emacs-forward-word       # ctrl-right (Linux)
-bindkey '^[[1;5C' emacs-forward-word    # ctrl-left (FreeBSD, OS X)
-bindkey '^[[1;5D' emacs-backward-word   # ctrl-right (FreeBSD, OS X)
+bindkey '^[[1;5C' emacs-forward-word    # ctrl-left (FreeBSD)
+bindkey '^[[1;5D' emacs-backward-word   # ctrl-right (FreeBSD)
+                                        # OS X 10.10 (Yosemite) doesn't seem to allow ctrl-arrow reliably
+                                        # Instead, use Karabiner to remap ctrl-arrow to opt-arrow and use
+                                        # these binds:
+bindkey '^[[1;9D' backward-word         # option-left
+bindkey '^[[1;9C' forward-word          # option-right
 bindkey '^[OH' beginning-of-line        # home (Linux, FreeBSD)
 bindkey '^[OF' end-of-line              # end (Linux, FreeBSD)
 bindkey '^[[H' beginning-of-line        # home (OS X)
