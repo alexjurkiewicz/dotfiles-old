@@ -4,6 +4,7 @@ ForwardAgent yes
 
 # Global defaults
 Host *
+    UseRoaming no
     Protocol 2
     PreferredAuthentications publickey,password,keyboard-interactive
     ForwardAgent yes
