@@ -4,6 +4,8 @@ runtime! debian.vim
 set incsearch nocompatible showmatch ignorecase smartcase scrolloff=5 noai vb t_vb= noerrorbells wildmenu t_Co=256 modelines=3 smarttab
 " :set noet ts=8 to temporarily override
 set et ts=4 softtabstop=4 shiftwidth=4
+" allow backspacing over everything
+set backspace=indent,eol,start
 
 " Filetype-specific configuration
 " http://vimdoc.sourceforge.net/htmldoc/syntax.html#syntax
