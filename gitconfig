@@ -1,6 +1,7 @@
 [user]
     name = !!name!!
     email = !!email!!
+    useConfigOnly = true
 [color]
     diff = always
     grep = always
@@ -11,15 +12,14 @@
     st = status
     s = status
     c = commit
-    commmit = commit
     pul = pull
-    rbm = rebase origin/master
     a = add
-    g = grep
-    ge = grep -Ovim
     d = diff
     dh = diff HEAD
     dc = diff --cached
     l = log
-    ll = log --format='tformat:%C(yellow)%h%Creset %C(bold)%aN%Creset %C(cyan)%s %b%Creset (%cr)'
-    pnp = !git fetch && git rebase && git push
+    ll = log --format='tformat:%C(yellow)%h%Creset %C(bold)%aN%Creset %C(cyan)%s %Creset(%cr)%+b'
+[commit]
+	verbose = true
+[stash]
+	showPatch = true
