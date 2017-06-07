@@ -420,11 +420,12 @@ if is-at-least 4.3.7 ; then
         if [[ -n $vcs_info_msg_0_ ]] ; then # we're in a repository
             if [[ $vcs_info_msg_0_ = git ]] ; then
                 revname=$(git name-rev --always --name-only HEAD 2>/dev/null)
+                if [ "$revname" ] ; then revname="$revname " fi
                 is-at-least 4.3.10 || vcs_info_msg_1_=$(git rev-list --max-count 1 HEAD) # older zsh missed this feature
                 rev=$vcs_info_msg_1_[0,7] # 7 chars is enough revhash for anyone
                 [[ -n $vcs_info_msg_3_ ]] && action="$vcs_info_msg_3_ " || action=""
             fi
-            psvar[1]=("$revname ")
+            psvar[1]=("$revname")
             psvar[2]=("$action")
         else
             psvar[1]=("")
